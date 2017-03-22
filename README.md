@@ -1,23 +1,21 @@
-# Iprog-Projekt
-Repo for iprog projekt
+# iprogprojekt
 
-[info](https://kth.instructure.com/courses/652/pages/final-project-description-and-grading-criteria)
+> Projekt för DH2642
 
-#### Viktiga datum
+## Build Setup
 
-[9:e mars: Deadline för projekt färslag](https://kth.instructure.com/courses/652/assignments/4183)
-[10:e april: Screencast](https://kth.instructure.com/courses/652/discussion_topics/3475)
-[12:e april: Projekt inlämnning](https://kth.instructure.com/courses/652/assignments/4184)
-[17:e april: Lämna inviduell feedback på andras screencast](https://kth.instructure.com/courses/652/discussion_topics/3475)
-[26:e april: Inviduell självreflektion](https://kth.instructure.com/courses/652/assignments/4185)
+``` bash
+# install dependencies
+npm install
 
-## TODO
+# serve with hot reload at localhost:8080
+npm run dev
 
-- [ ] Cool ide
-- [ ] Skriva nice kod
-- [ ] Dricka kaffe
+# build for production with minification
+npm run build
 
-## Ideer
+# build for production and view the bundle analyzer report
+npm run build --report
+```
 
-Något med [vue.js](https://vuejs.org)  och [firebase](https://firebase.google.com/)
-
+For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
