@@ -1,21 +1,18 @@
 <template>
-  <div class="hello">
+  <div class="login">
     <h1>{{ msg }}</h1>
     <ul>
-      <li><a href="/#/login">Login</a></li>
-      <li><a href="/#/search">Search</a></li>
-      <li><a href="/#/user/52">User</a></li>
+      <li><a href="/#/">Back Home</a></li>
     </ul>
   </div>
 </template>
 
 <script>
-  import Login from "./Login";
   export default {
-    components: {Login}, name: 'hello',
+    name: 'login',
     data () {
       return {
-        msg: 'Iprog Project'
+        msg: 'Login page'
       }
     }
   }
