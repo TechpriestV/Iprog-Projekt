@@ -7,7 +7,7 @@ import User from '@/components/User'
 import Linnea from '@/components/Linnea'
 import lineChart from '@/components/lineChart'
 import hBar from '@/components/hBar'
-import dNutCart from '@/components/dNutCart'
+import dNutChart from '@/components/dNutChart'
 // import XX from '@/components/XX'
 
 
@@ -32,13 +32,13 @@ export default new Router({
     {
       path: '/user/:id',
       name: 'User',
-      component: User, hBar,
-      props: true
+      component: User, hBar
+      // props: true
     },
     {
       path: '/linnea',
       name: 'Linnea',
-      component: Linnea
+      component: Linnea, hBar
     },
   ]
 })

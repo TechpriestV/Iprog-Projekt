@@ -2,7 +2,9 @@
   <div class="linnea">
     <h1>{{ msg }}</h1>
     <hr>
-    <div class="smallBox"></div>
+    <div class="smallBox">
+      <hBar :data='data1' />
+    </div>
     <div class="smallBox"></div>
     <div class="smallBox"></div>
     <div class="bigBox"></div>
@@ -15,11 +17,23 @@
 </template>
 
 <script>
+  import hBar from "./hBar"
   export default {
+    components : {hBar},
     name: 'linnea',
     data () {
       return {
-        msg: 'Hello Linnea!'
+        msg: 'Hello Linnea!',
+        data1: {
+          labels: ['1', '2'],
+          datasets: [
+            {
+              label: 'Testlabel',
+              backgroundColor: '#f87979',
+              data: [3, 2]
+            }
+          ]
+        }
       }
     }
   }
