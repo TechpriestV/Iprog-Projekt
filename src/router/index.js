@@ -5,6 +5,11 @@ import Login from '@/components/Login'
 import Search from '@/components/Search'
 import User from '@/components/User'
 import Linnea from '@/components/Linnea'
+import lineChart from '@/components/lineChart'
+import hBar from '@/components/hBar'
+import dNutCart from '@/components/dNutCart'
+// import XX from '@/components/XX'
+
 
 Vue.use(Router);
 
@@ -27,7 +32,7 @@ export default new Router({
     {
       path: '/user/:id',
       name: 'User',
-      component: User,
+      component: User, hBar,
       props: true
     },
     {
