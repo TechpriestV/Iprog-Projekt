@@ -1,9 +1,9 @@
 
 <!-- Component for horizontal barchart-->
 <script>
-  import { horizontalBar } from 'vue-chartjs';
+  import { Bar } from 'vue-chartjs';
 
-  export default horizontalBar.extend({
+  export default Bar.extend({
     props: ['data', 'options'],
     mounted(){
       if (!this.options){
