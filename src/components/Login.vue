@@ -1,9 +1,9 @@
 <template>
   <div class="login">
-    <h1>{{ msg }}</h1>
+    <h1>{{ uname }}</h1>
     <ul>
-      <li><button v-on:click="loginTwitter">Logga in med twitter</button>
-      <li><button v-on:click="logout">Logga ut </button></li>
+      <li v-if="!isLoggedIn()"><button v-on:click="loginTwitter">Logga in med twitter</button>
+      <li v-if="isLoggedIn()"><button v-on:click="logout">Logga ut </button></li>
       <li><a href="/#/">Back Home</a></li>
     </ul>
   </div>
@@ -12,19 +12,18 @@
 <script>
   var firebase = require("firebase");
   var provider = new firebase.auth.TwitterAuthProvider();
-  
 
   export default {
     name: 'login',
     data () {
       return {
         msg: 'Login page',
-        twitterUserName: 'test'
+        uname: this.getUserName()
       }
     },
     methods: {
       loginTwitter: function(){
-        var self = this;
+        var self = this; 
         firebase.auth().signInWithPopup(provider).then(function(result) {
         // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
         // You can use these server side with your app's credentials to access the Twitter API.
@@ -33,9 +32,8 @@
         // The signed-in user info.
         var twitterUser = result.user;
 
-        self.msg = twitterUser.displayName;
+        self.uname = twitterUser.displayName;
 
-        console.log(self.twitterUserName);
         // ...
       }).catch(function(error) {
         // Handle Errors here.
@@ -52,13 +50,35 @@
       });
       },
       logout: function(){
-        this.msg = 'Login Page';
+        var self = this;
         firebase.auth().signOut().then(function() {
         // Sign-out successful.
         console.log('signed out');
+        console.log(firebase.auth().currentUser);
+
+        self.uname = 'Login page';
+
       }).catch(function(error) {
         // An error happened.
       });
+      },
+      isLoggedIn: function(){
+          if (firebase.auth().currentUser){
+            return true;
+          }
+          else {
+            return false;
+          }
+      },
+      getUserName: function(){
+        var user = firebase.auth().currentUser;
+
+        if(user) {
+          return user.displayName;
+        }
+        else {
+          return 'Login page';
+        }
       }
   }
 }
