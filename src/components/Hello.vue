@@ -6,16 +6,29 @@
       <li><a href="/#/search">Search</a></li>
       <li><a href="/#/user/52">User</a></li>
     </ul>
+    <!-- <TestCharts data="{{ testData }}"/> -->
+    <TestCharts :data='testData' />
   </div>
 </template>
 
 <script>
   import Login from "./Login";
+  import TestCharts from "./TestCharts";
   export default {
-    components: {Login}, name: 'hello',
+    components: {Login, TestCharts}, name: 'hello',
     data () {
       return {
-        msg: 'Iprog Project'
+        msg: 'Iprog Project',
+        testData: {
+          labels: ['1', '2'],
+          datasets: [
+            {
+              label: 'GitHub Commits',
+              backgroundColor: '#f87979',
+              data: [3, 2]
+            }
+          ]
+        }
       }
     }
   }
