@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import Login from '@/components/Login'
 import Search from '@/components/Search'
 import User from '@/components/User'
+import TestCharts from '@/components/TestCharts'
 
 Vue.use(Router);
 
@@ -12,7 +13,7 @@ export default new Router({
     {
       path: '/',
       name: 'Hello',
-      component: Hello
+      component: Hello, TestCharts
     },
     {
       path: '/login',

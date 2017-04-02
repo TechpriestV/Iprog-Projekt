@@ -6,13 +6,15 @@
       <li><a href="/#/search">Search</a></li>
       <li><a href="/#/user/52">User</a></li>
     </ul>
+    <TestCharts/>
   </div>
 </template>
 
 <script>
   import Login from "./Login";
+  import TestCharts from "./TestCharts";
   export default {
-    components: {Login}, name: 'hello',
+    components: {Login, TestCharts}, name: 'hello',
     data () {
       return {
         msg: 'Iprog Project'
