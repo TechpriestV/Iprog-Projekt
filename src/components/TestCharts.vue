@@ -14,8 +14,8 @@
     console.log(this.data);
     if (!this.options) {
       console.log("No options passed, using defualts!");
-    }
-    this.renderChart(this.data, this.options)
+    };
+    this.renderChart(this.data, this.options);
 
     // Static data
     // this.renderChart({
