@@ -4,16 +4,15 @@ import Hello from '@/components/Hello'
 import Login from '@/components/Login'
 import Search from '@/components/Search'
 import User from '@/components/User'
-import TestCharts from '@/components/TestCharts'
+import Linnea from '@/components/Linnea'
 
 Vue.use(Router);
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'Hello',
-      component: Hello, TestCharts
+      component: Hello
     },
     {
       path: '/login',
@@ -30,6 +29,11 @@ export default new Router({
       name: 'User',
       component: User,
       props: true
-    }
+    },
+    {
+      path: '/linnea',
+      name: 'Linnea',
+      component: Linnea
+    },
   ]
 })
