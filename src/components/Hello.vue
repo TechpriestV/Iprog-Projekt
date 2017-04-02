@@ -6,8 +6,7 @@
       <li><a href="/#/search">Search</a></li>
       <li><a href="/#/user/52">User</a></li>
     </ul>
-    <!-- <TestCharts data="{{ testData }}"/> -->
-    <TestCharts :data='testData' />
+    <!-- <TestCharts :data='testData' /> -->
   </div>
 </template>
 
@@ -23,7 +22,7 @@
           labels: ['1', '2'],
           datasets: [
             {
-              label: 'GitHub Commits',
+              label: 'Testlabel',
               backgroundColor: '#f87979',
               data: [3, 2]
             }
