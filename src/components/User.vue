@@ -74,6 +74,7 @@
           datasets: [
             {
               label: 'Interactions',
+              fill: false,
               backgroundColor: '#36A2EB',
               data: [1, 0,2,0,1,0,1]
             }
