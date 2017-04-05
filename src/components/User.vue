@@ -3,13 +3,14 @@
     <h1>{{ msg }} <span>{{ id }}</span></h1>
     <hr>
     <div class="smallBox">
-      <hBar :data='data1' />
+      <!-- <hBar :data='data1'/> -->
+      <hBar :data='data1' :height='175' />
     </div>
     <div class="smallBox">
-      <lineChart :data='data2' />
+      <lineChart :data='data2' :height='175' />
     </div>
     <div class="smallBox">
-      <hBar :data='data3' />
+      <dNutChart :data='data3' :height='175' />
     </div>
     <div class="bigBox"></div>
     <hr>
@@ -22,6 +23,7 @@
 <script>
   import hBar from "./hBar"
   import lineChart from './lineChart'
+  import dNutChart from './dNutChart'
   var firebase = require("firebase");
   // if (firebase.apps.length === 0) {
   //   console.log("Jag kom hit");
@@ -30,14 +32,14 @@
   // }
   export default {
     name: 'user',
-    components : {hBar, lineChart},
+    components : {hBar, lineChart, dNutChart},
     props: ['id'],
     data () {
       return {
         msg: this.getUserName(),
         data1: this.getTweetsData(),
         data2: this.getInteractionData(),
-        data3: "",
+        data3: this.getGoalData(),
       }
     },
     methods:{
@@ -55,19 +57,54 @@
         console.log(firebase.auth().currentUser);
         var query = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=t"+this.getUserName()+"&count=2"
         var testData = {
-          labels: ['1', '2'],
+          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
           datasets: [
             {
-              label: 'Testlabel',
+              label: 'Tweets',
               backgroundColor: '#f87979',
-              data: [3, 2]
+              data: [3, 2,3,1,3,0,1]
             }
           ]
         }
         return testData
       },
       getInteractionData: function () {
-        return "";
+        var testData = {
+          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+          datasets: [
+            {
+              label: 'Interactions',
+              backgroundColor: '#36A2EB',
+              data: [1, 0,2,0,1,0,1]
+            }
+          ]
+        }
+        return testData
+      },
+      getGoalData: function () {
+        var testData = {
+          labels: [
+              "Favs",
+              "Replies",
+              "Retweets"
+          ],
+          datasets: [
+              {
+                  data: [300, 50, 100],
+                  backgroundColor: [
+                      "#FF6384",
+                      "#36A2EB",
+                      "#FFCE56"
+                  ],
+                  hoverBackgroundColor: [
+                      "#FF6384",
+                      "#36A2EB",
+                      "#FFCE56"
+                  ]
+              }
+            ]
+          };
+        return testData
       }
     }
   }
