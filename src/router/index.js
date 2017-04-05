@@ -30,9 +30,9 @@ export default new Router({
       component: Search
     },
     {
-      path: '/user/:id',
+      path: '/user/',
       name: 'User',
-      component: User, hBar
+      component: User, hBar, lineChart, dNutChart
       // props: true
     },
     {

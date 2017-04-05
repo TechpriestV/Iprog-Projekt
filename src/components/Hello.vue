@@ -4,7 +4,7 @@
     <ul>
       <li><a href="/#/login">Login</a></li>
       <li><a href="/#/search">Search</a></li>
-      <li><a href="/#/user/52">User</a></li>
+      <li><a href="/#/user">User</a></li>
     </ul>
     <!-- <TestCharts :data='testData' /> -->
   </div>
