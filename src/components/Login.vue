@@ -1,17 +1,21 @@
 <template>
   <div class="login">
-    <h1>{{ user.displayName }}</h1>
-    <ul>
-      <li v-if="!logged_in"><button v-on:click="loginTwitter">Logga in med twitter</button>
-      <li v-if="logged_in"><button v-on:click="logout">Logga ut </button></li>
-    </ul>
+    <div v-if="logged_in">
+      <h1>Welcome back {{ user.displayName }}!</h1>
+      <button v-on:click="start">Start!</button>
+      <button v-on:click="logout">Logga ut </button>
+    </div>
+    <div v-if="!logged_in">
+      <h1>Welcome, please log in!</h1>
+      <button v-on:click="loginTwitter">Logga in med twitter</button>
+    </div>
   </div>
 </template>
 
 <script>
-  import {auth_provider, db, auth} from '../fb'
+  import { auth_provider, db, auth } from '../fb'
   import { mapMutations } from 'vuex'
-  import { mapGetters} from 'vuex'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'login',
@@ -34,28 +38,40 @@
           // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
           // You can use these server side with your app's credentials to access the Twitter API.
           self.setUserToken(result.credential.accessToken);
-          self.setUserSecret(result.credential.secret);
-          // The signed-in user info.
-          self.setUser(result.user);
-
-          self.setLoggedIn(true);
+          self.setUserSecret(result.credential.secret)
 
         }).catch(function(error) {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          const credential = error.credential;
-
-          console.log('Nu blir det error' + errorMessage);
-
+          console.log('Nu blir det error' + error);
         })
       },
       logout: function () {
+        auth.signOut().then(function() {
+          // Sign-out successful.
+          console.log('Signed out!')
+        }).catch(function(error) {
+          console.log(error)
+        });
 
+      },
+      start: function () {
+        this.$router.push({name: 'User'})
       }
+    },
+    mounted: function () {
+    	const self = this;
+      auth.onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          self.setUser(user);
+          self.setLoggedIn(true);
+
+        } else {
+
+          self.setUser(false);
+          self.setLoggedIn(false);
+
+        }
+      });
     }
   }
 

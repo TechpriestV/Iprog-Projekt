@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <h1>{{ msg }} <span>{{ id }}</span></h1>
+    <h1>{{ msg }} <span>{{ user.uid }}</span></h1>
     <hr>
     <div class="smallBox">
       <!-- <hBar :data='data1'/> -->
@@ -15,7 +15,7 @@
     <div class="bigBox"></div>
     <hr>
     <ul>
-      <li><a href="/#/">Back Home</a></li>
+      <li><router-link to="/">Back Home</router-link></li>
     </ul>
   </div>
 </template>
@@ -24,39 +24,30 @@
   import hBar from "./hBar"
   import lineChart from './lineChart'
   import dNutChart from './dNutChart'
-  var firebase = require("firebase");
-  // if (firebase.apps.length === 0) {
-  //   console.log("Jag kom hit");
-  //   var user = firebase.auth().currentUser;
-  //   console.log("Och hit!");
-  // }
+  import { auth_provider, db, auth } from '../fb'
+  import { mapMutations } from 'vuex'
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'user',
     components : {hBar, lineChart, dNutChart},
-    props: ['id'],
+    computed: {
+      ...mapGetters([
+        'user',
+        'logged_in'
+      ])
+    },
     data () {
       return {
-        msg: this.getUserName(),
+        msg: 'User Id: ',
         data1: this.getTweetsData(),
         data2: this.getInteractionData(),
         data3: this.getGoalData(),
       }
     },
     methods:{
-      getUserName: function(){
-        var user = firebase.auth().currentUser;
-
-        if(user) {
-          return user.displayName;
-        }
-        else {
-          return 'Not signed in';
-        }
-      },
       getTweetsData: function () {
-        console.log(firebase.auth().currentUser);
-        var query = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=t"+this.getUserName()+"&count=2"
-        var testData = {
+        return {
           labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
           datasets: [
             {
@@ -66,10 +57,9 @@
             }
           ]
         }
-        return testData
       },
       getInteractionData: function () {
-        var testData = {
+        return {
           labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
           datasets: [
             {
@@ -80,32 +70,30 @@
             }
           ]
         }
-        return testData
       },
       getGoalData: function () {
-        var testData = {
+        return {
           labels: [
-              "Favs",
-              "Replies",
-              "Retweets"
+            "Favs",
+            "Replies",
+            "Retweets"
           ],
           datasets: [
-              {
-                  data: [300, 50, 100],
-                  backgroundColor: [
-                      "#FF6384",
-                      "#36A2EB",
-                      "#FFCE56"
-                  ],
-                  hoverBackgroundColor: [
-                      "#FF6384",
-                      "#36A2EB",
-                      "#FFCE56"
-                  ]
-              }
-            ]
-          };
-        return testData
+            {
+              data: [300, 50, 100],
+              backgroundColor: [
+                "#FF6384",
+                "#36A2EB",
+                "#FFCE56"
+              ],
+              hoverBackgroundColor: [
+                "#FF6384",
+                "#36A2EB",
+                "#FFCE56"
+              ]
+            }
+          ]
+        }
       }
     }
   }

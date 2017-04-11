@@ -2,7 +2,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <!-- <TestCharts :data='testData' /> -->
-    <login></login>
+    <login/>
   </div>
 </template>
 

@@ -25,10 +25,9 @@ export default new Router({
       component: Search
     },
     {
-      path: '/user/',
+      path: '/user',
       name: 'User',
       component: User, hBar, lineChart, dNutChart
-      // props: true
     },
     {
       path: '/linnea',
