@@ -45,6 +45,9 @@
         data3: this.getGoalData(),
       }
     },
+    mounted: function() {
+      this.twitterApiTests()
+    },
     methods:{
       getTweetsData: function () {
         return {
