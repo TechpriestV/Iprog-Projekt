@@ -1,87 +1,63 @@
 <template>
   <div class="login">
-    <h1>{{ uname }}</h1>
+    <h1>{{ user.displayName }}</h1>
     <ul>
-      <li v-if="!isLoggedIn()"><button v-on:click="loginTwitter">Logga in med twitter</button>
-      <li v-if="isLoggedIn()"><button v-on:click="logout">Logga ut </button></li>
-      <li><a href="/#/">Back Home</a></li>
+      <li v-if="!logged_in"><button v-on:click="loginTwitter">Logga in med twitter</button>
+      <li v-if="logged_in"><button v-on:click="logout">Logga ut </button></li>
     </ul>
   </div>
 </template>
 
 <script>
-  var firebase = require("firebase");
-  var provider = new firebase.auth.TwitterAuthProvider();
+  import {auth_provider, db, auth} from '../fb'
+  import { mapMutations } from 'vuex'
+  import { mapGetters} from 'vuex'
 
   export default {
     name: 'login',
-    data () {
-      return {
-        msg: 'Login page',
-        uname: this.getUserName()
-      }
+    computed: {
+      ...mapGetters([
+    		  'user',
+          'logged_in'
+        ])
     },
     methods: {
-      loginTwitter: function(){
-        var self = this; 
-        firebase.auth().signInWithPopup(provider).then(function(result) {
-        // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
-        // You can use these server side with your app's credentials to access the Twitter API.
-        var token = result.credential.accessToken;
-        var secret = result.credential.secret;
-        // The signed-in user info.
-        var twitterUser = result.user;
+      ...mapMutations([
+        'setUserToken',
+        'setUserSecret',
+        'setUser',
+        'setLoggedIn'
+      ]),
+    	loginTwitter: function () {
+      	const self = this;
+    		auth.signInWithPopup(auth_provider).then(function(result) {
+          // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+          // You can use these server side with your app's credentials to access the Twitter API.
+          self.setUserToken(result.credential.accessToken);
+          self.setUserSecret(result.credential.secret);
+          // The signed-in user info.
+          self.setUser(result.user);
 
-        self.uname = twitterUser.displayName;
+          self.setLoggedIn(true);
 
-        // ...
-      }).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
+        }).catch(function(error) {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          const credential = error.credential;
 
-        console.log('nu blir det error');
-        // ...
+          console.log('Nu blir det error' + errorMessage);
 
-      });
+        })
       },
-      logout: function(){
-        var self = this;
-        firebase.auth().signOut().then(function() {
-        // Sign-out successful.
-        console.log('signed out');
-        console.log(firebase.auth().currentUser);
+      logout: function () {
 
-        self.uname = 'Login page';
-
-      }).catch(function(error) {
-        // An error happened.
-      });
-      },
-      isLoggedIn: function(){
-          if (firebase.auth().currentUser){
-            return true;
-          }
-          else {
-            return false;
-          }
-      },
-      getUserName: function(){
-        var user = firebase.auth().currentUser;
-
-        if(user) {
-          return user.displayName;
-        }
-        else {
-          return 'Login page';
-        }
       }
+    }
   }
-}
 
 
 </script>
