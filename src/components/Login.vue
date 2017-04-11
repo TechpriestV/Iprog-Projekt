@@ -1,10 +1,14 @@
 <template>
   <div class="login">
-    <h1>{{ user.displayName }}</h1>
-    <ul>
-      <li v-if="!logged_in"><button v-on:click="loginTwitter">Logga in med twitter</button>
-      <li v-if="logged_in"><button v-on:click="logout">Logga ut </button></li>
-    </ul>
+    <div v-if="logged_in">
+      <h1>Welcome back {{ user.displayName }}!</h1>
+      <button v-on:click="start">Start!</button>
+      <button v-on:click="logout">Logga ut </button>
+    </div>
+    <div v-if="!logged_in">
+      <h1>Welcome, please log in!</h1>
+      <button v-on:click="loginTwitter">Logga in med twitter</button>
+    </div>
   </div>
 </template>
 
@@ -48,6 +52,9 @@
           console.log(error)
         });
 
+      },
+      start: function () {
+        this.$router.push({name: 'User'})
       }
     },
     mounted: function () {
