@@ -28,7 +28,7 @@ export default new Router({
     {
       path: '/user',
       name: 'User',
-      component: User, hBar, lineChart, dNutChart
+      component: User, hBar, lineChart, dNutChart, barChart
     },
     {
       path: '/linnea',

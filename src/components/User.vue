@@ -13,7 +13,7 @@
       <dNutChart :data='data3' :height='175' />
     </div>
     <div class="bigBox">
-      
+
       <barChart :data='data4' :height='175'/>
       <!-- <lineChart :data='data4' :height='175' /> -->
     </div>
@@ -37,7 +37,7 @@
 
   export default {
     name: 'user',
-    components : {hBar, lineChart, dNutChart},
+    components : {hBar, lineChart, dNutChart, barChart},
     computed: {
       ...mapGetters([
         'user',
