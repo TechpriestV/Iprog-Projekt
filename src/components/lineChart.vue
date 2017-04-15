@@ -9,12 +9,14 @@
       if (!this.options){
         // Define defualt options here
         // this.options = {...}
-        this.options= {
+        this.defaultOptions= {
           responsive: true,
           maintainAspectRatio: false
         };
+        this.renderChart(this.data, this.defaultOptions)
+      }else{
+        this.renderChart(this.data, this.options)
       };
-      this.renderChart(this.data, this.options)
     }
   });
 </script>
