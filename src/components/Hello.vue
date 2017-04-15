@@ -1,33 +1,20 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <ul>
-      <li><a href="/#/login">Login</a></li>
-      <li><a href="/#/search">Search</a></li>
-      <li><a href="/#/user">User</a></li>
-    </ul>
     <!-- <TestCharts :data='testData' /> -->
+    <login/>
   </div>
 </template>
 
 <script>
-  import Login from "./Login";
-  import TestCharts from "./TestCharts";
+  import Login from "./Login"
+
   export default {
-    components: {Login, TestCharts}, name: 'hello',
+    components: {Login},
+    name: 'hello',
     data () {
       return {
-        msg: 'Iprog Project',
-        testData: {
-          labels: ['1', '2'],
-          datasets: [
-            {
-              label: 'Testlabel',
-              backgroundColor: '#f87979',
-              data: [3, 2]
-            }
-          ]
-        }
+        msg: 'Iprog Project'
       }
     }
   }
