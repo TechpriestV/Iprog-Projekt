@@ -12,7 +12,11 @@
     <div class="smallBox">
       <dNutChart :data='data3' :height='175' />
     </div>
-    <div class="bigBox"></div>
+    <div class="bigBox">
+      
+      <barChart :data='data4' :height='175'/>
+      <!-- <lineChart :data='data4' :height='175' /> -->
+    </div>
     <hr>
     <ul>
       <li><router-link to="/">Back Home</router-link></li>
@@ -24,6 +28,9 @@
   import hBar from "./hBar"
   import lineChart from './lineChart'
   import dNutChart from './dNutChart'
+
+  import barChart from './barChart'
+
   import { auth_provider, db, auth } from '../fb'
   import { mapMutations } from 'vuex'
   import { mapGetters } from 'vuex'
@@ -43,6 +50,7 @@
         data1: this.getTweetsData(),
         data2: this.getInteractionData(),
         data3: this.getGoalData(),
+        data4: this.historicalData(),
       }
     },
     methods:{
@@ -79,7 +87,8 @@
             "Retweets"
           ],
           datasets: [
-            {
+
+               {
               data: [300, 50, 100],
               backgroundColor: [
                 "#FF6384",
@@ -94,6 +103,27 @@
             }
           ]
         }
+      },
+      historicalData: function () {
+        var data = {
+          labels: ["January", "Feburai", "Mars", "April", "May", "June", "July", "Agust", "September", "October", "November", "December"],
+          datasets: [
+            {
+              label: "Tweets",
+              backgroundColor: "#f87979",
+              fill: false,
+              data: [32,17,24, 20, 14, 10,41,24,17,29,11,32]
+            },
+            {
+              label: "Interactions",
+              backgroundColor: "#36A2EB",
+              fill: false,
+              data: [40,13,25,17,22,34,46,11,22,35,31,42]
+            }
+          ]
+        };
+      return data
+
       }
     }
   }
