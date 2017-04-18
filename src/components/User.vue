@@ -1,6 +1,7 @@
 <template>
   <div class="user">
-    <h1>{{ msg }} <span>{{ user.uid }}</span></h1>
+    <h1>{{ msg }} <span>{{ tmp.displayName }}</span></h1>
+    {{ getUser }}
     <hr>
     <div class="smallBox">
       <!-- <hBar :data='data1'/> -->
@@ -28,21 +29,59 @@
   import hBar from "./hBar"
   import lineChart from './lineChart'
   import dNutChart from './dNutChart'
-
   import barChart from './barChart'
-
   import { auth_provider, db, auth } from '../fb'
   import { mapMutations } from 'vuex'
   import { mapGetters } from 'vuex'
+
+  var self = this;
 
   export default {
     name: 'user',
     components : {hBar, lineChart, dNutChart, barChart},
     computed: {
       ...mapGetters([
-        'user',
-        'logged_in'
-      ])
+        'logged_in',
+        'user_token',
+        'user_secret'
+      ]),
+      ...mapGetters({
+         // map this.user to store.getters.tmp
+        tmp: 'user'
+      }),
+      getUser: function () {
+        console.log("Här borde user sevret komma> ")
+        console.log(this.user_secret);
+        console.log(this.user_token);
+        // console.log(this.tmp.uid);
+        // console.log(this.tmp.apiKey);
+
+        "https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=D9TA5vPci6OA4ishOUH1yhkEAB02&screen_name=vikced"
+        var timeLineURL = 'https://api.twitter.com/1.1/statuses/home_timeline.json';
+        var options = {
+          url: timeLineURL,
+          headers: {
+            
+          },
+          body: {
+            user_id: this.tmp.uid,
+            screen_name: this.tmp.displayName
+          }
+        };
+
+        this.$http.get('/tmp', [options]).then(respone => {
+          //sucess callback
+        }, {
+          //error callback
+        });
+
+        // $.ajax({
+        //   url: timeLineURL,
+        //   data:
+        //
+        // })
+        return "this.tmp"
+      }
     },
     data () {
       return {
@@ -55,6 +94,7 @@
     },
     methods:{
       getTweetsData: function () {
+        // console.log(getUser());
         return {
           labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
           datasets: [

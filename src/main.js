@@ -4,6 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import VueResource from 'vue-resource'
+
+
 
 Vue.config.productionTip = false;
 
@@ -15,3 +18,5 @@ new Vue({
   template: '<App/>',
   components: {App}
 });
+
+Vue.use(VueResource);
