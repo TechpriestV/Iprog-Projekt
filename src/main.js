@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import VueResource from 'vue-resource'
-
+import Twitter from 'twitter'
 
 
 Vue.config.productionTip = false;
@@ -20,3 +20,4 @@ new Vue({
 });
 
 Vue.use(VueResource);
+Vue.use(Twitter);

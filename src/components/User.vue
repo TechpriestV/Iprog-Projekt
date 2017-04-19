@@ -55,13 +55,13 @@
         console.log(this.user_token);
         // console.log(this.tmp.uid);
         // console.log(this.tmp.apiKey);
-
+        // this.formatHeader();
         "https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=D9TA5vPci6OA4ishOUH1yhkEAB02&screen_name=vikced"
         var timeLineURL = 'https://api.twitter.com/1.1/statuses/home_timeline.json';
         var options = {
           url: timeLineURL,
           headers: {
-            
+
           },
           body: {
             user_id: this.tmp.uid,
@@ -93,6 +93,17 @@
       }
     },
     methods:{
+      formatHeader: function () {
+        // This function formats a header for Twitters API
+        // https://dev.twitter.com/oauth/overview/authorizing-requests
+        // oauth_consumer_key       - param
+        // oauth_nonce              - generated
+        // oauth_signature          - generated
+        // oauth_signature_method   - hard coded = HMAC-SHA1
+        // oauth_timestamp          - generated
+        // oauth_token              - param
+        // oauth_version            - hard coded = 1.0
+      },
       getTweetsData: function () {
         // console.log(getUser());
         return {
