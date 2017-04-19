@@ -1,6 +1,7 @@
 <template>
   <div class="sidebar col-sm-2">
-    <h2>{{ user.displayName }}</h2>
+    <img :src="user.photoURL" alt="">
+    <h1>{{user.displayName}}</h1>
   </div>
 </template>
 
@@ -39,6 +40,7 @@
       auth.onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
+          console.log(user);
           self.setUser(user);
           self.setLoggedIn(true);
         } else {
