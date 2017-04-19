@@ -1,7 +1,6 @@
 <template>
   <div class="sidebar col-sm-2">
-    <img :src="user.photoURL" alt="">
-    <h1>{{user.displayName}}</h1>
+    <h4><img :src="user.photoURL" alt=""> @{{user.displayName}}</h4>
   </div>
 </template>
 
@@ -59,6 +58,11 @@
   .sidebar {
     background-color: #999;
     height: 100vh;
+  }
+
+  img {
+    height: 40px;
+    border-radius: 20px;
   }
 
 </style>
