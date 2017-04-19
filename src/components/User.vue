@@ -1,7 +1,6 @@
 <template>
   <div class="user col">
     <h1>Dashboard</h1>
-    {{ getUser }}
     <hr>
     <div class="row">
       <div class="smallBox col">
@@ -42,8 +41,9 @@
         'logged_in',
         'user_token',
         'user_secret'
-      ]),
-      getUser: function () {
+      ])
+    },
+    mounted: function () {
         console.log("Här borde user sevret komma> ");
         console.log(this.user_secret);
         console.log(this.user_token);
@@ -70,7 +70,7 @@
         } else (
           console.log("Not signed in! Should kick user back!")
         )
-      }
+
     },
     data () {
       return {
