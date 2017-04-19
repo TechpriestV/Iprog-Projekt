@@ -18,7 +18,7 @@ parser.add_argument('consumer_secret')
 parser.add_argument('access_token')
 parser.add_argument('access_token_secret')
 
-tweets = {}
+tweets = []
 
 class GetTweets(Resource):
     def get(self):
@@ -31,7 +31,7 @@ class GetTweets(Resource):
         #print(args)
         api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
         # print(api.VerifyCredentials())
-        st = api.GetUserTimeline()
+        st = api.GetUserTimeline(count=199)
         print(type(st))
         dmp = []
         for s in st:
