@@ -39,28 +39,24 @@
     computed: {
       ...mapGetters([
         'user',
-        'logged_in'
-      ])
+        'logged_in',
         'user_token',
         'user_secret'
       ]),
-      ...mapGetters({
-         // map this.user to store.getters.tmp
-        tmp: 'user'
-      }),
       getUser: function () {
-        console.log("Här borde user sevret komma> ")
+        console.log("Här borde user sevret komma> ");
         console.log(this.user_secret);
         console.log(this.user_token);
 
         if (this.user_token && this.user_secret) {
-          var tweetInfo = {
+          const tweetInfo = {
             consumer_key: '45QA0HdFT6J2DDgvScJs6FKxb',
             consumer_secret: '7Qm1KywGDIDVyVfG0JfgAZifZNPzPuudi4AjOL6nlIUB56QNLi',
             access_token: this.user_token,
             access_token_secret: this.user_secret
-          }
-          var serverURL = 'http://localhost:5000/api/gettweets'
+          };
+
+          const serverURL = 'http://localhost:5000/api/gettweets';
           this.$http.post(serverURL, tweetInfo).then(response => {
             this.someData = response.body;
             console.log(this.someData);
@@ -71,14 +67,9 @@
               console.log(response.body.message);
             }
           });
-          // client.get('favorites/list', function(error, tweets, response) {
-          //   if(error) throw error;
-          //     console.log(tweets);  // The favorites.
-          //     console.log(response);  // Raw response object.
-          // });
-        }else(
+        } else (
           console.log("Not signed in! Should kick user back!")
-
+        )
       }
     },
     data () {
