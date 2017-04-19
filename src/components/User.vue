@@ -1,26 +1,25 @@
 <template>
-  <div class="user">
-    <h1>{{ msg }} <span>{{ user.uid }}</span></h1>
+  <div class="user col">
+    <h1>Dashboard</h1>
     <hr>
-    <div class="smallBox">
-      <!-- <hBar :data='data1'/> -->
-      <hBar :data='data1' :height='175' />
+    <div class="row">
+      <div class="smallBox col">
+        <hBar :data='data1' :height='175' />
+      </div>
+      <div class="smallBox col">
+        <lineChart :data='data2' :height='175' />
+      </div>
+      <div class="smallBox col">
+        <dNutChart :data='data3' :height='175' />
+      </div>
     </div>
-    <div class="smallBox">
-      <lineChart :data='data2' :height='175' />
-    </div>
-    <div class="smallBox">
-      <dNutChart :data='data3' :height='175' />
-    </div>
-    <div class="bigBox">
+    <div class="row">
+      <div class="bigBox col">
 
-      <barChart :data='data4' :height='175'/>
-      <!-- <lineChart :data='data4' :height='175' /> -->
+        <barChart :data='data4' :height='175'/>
+        <!-- <lineChart :data='data4' :height='175' /> -->
+      </div>
     </div>
-    <hr>
-    <ul>
-      <li><router-link to="/">Back Home</router-link></li>
-    </ul>
   </div>
 </template>
 
@@ -28,9 +27,7 @@
   import hBar from "./hBar"
   import lineChart from './lineChart'
   import dNutChart from './dNutChart'
-
   import barChart from './barChart'
-
   import { auth_provider, db, auth } from '../fb'
   import { mapMutations } from 'vuex'
   import { mapGetters } from 'vuex'
@@ -52,9 +49,6 @@
         data3: this.getGoalData(),
         data4: this.historicalData(),
       }
-    },
-    mounted: function() {
-      this.twitterApiTests()
     },
     methods:{
       getTweetsData: function () {
@@ -135,21 +129,14 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .user {
-  max-width: 800px;
-  margin: 0 auto;
   }
 .bigBox {
-  width: 96%;
   height: 300px;
   background-color: #f0f0f0;
-  margin: 6px auto;
 }
 .smallBox {
-  width: 30%;
   height: 180px;
   background-color: #f0f0f0;
-  display: inline-block;
-  margin: 10px;
   }
 hr {
   border-top: #f0f0f0;

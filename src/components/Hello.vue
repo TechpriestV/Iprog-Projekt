@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <img src="../assets/logo3.png" height="100px">
     <h1>{{ msg }}</h1>
     <!-- <TestCharts :data='testData' /> -->
     <login/>
