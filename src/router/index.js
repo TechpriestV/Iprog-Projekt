@@ -8,6 +8,7 @@ import Linnea from '@/components/Linnea'
 import lineChart from '@/components/lineChart'
 import hBar from '@/components/hBar'
 import dNutChart from '@/components/dNutChart'
+import barChart from '@/components/barChart'
 // import XX from '@/components/XX'
 
 
@@ -27,7 +28,7 @@ export default new Router({
     {
       path: '/user',
       name: 'User',
-      component: User, hBar, lineChart, dNutChart
+      component: User, hBar, lineChart, dNutChart, barChart
     },
     {
       path: '/linnea',

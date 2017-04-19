@@ -1,9 +1,9 @@
 
-<!-- Component for line chart-->
+<!-- Component for Barchart-->
 <script>
-  import { Line } from 'vue-chartjs';
+  import { Bar } from 'vue-chartjs';
 
-  export default Line.extend({
+  export default Bar.extend({
     props: ['data', 'options', 'height','width'],
     mounted(){
       if (!this.options){
@@ -11,10 +11,17 @@
         // this.options = {...}
         this.defaultOptions= {
           responsive: true,
-          maintainAspectRatio: false
+          maintainAspectRatio: false,
+          scales: {
+            xAxes: [{
+              barPercentage: 1.0,
+              categoryPercentage: 1.0
+              // categorySpacing: 0
+            }]
+          }
         };
         this.renderChart(this.data, this.defaultOptions)
-      }else{
+      }else {
         this.renderChart(this.data, this.options)
       };
     }
