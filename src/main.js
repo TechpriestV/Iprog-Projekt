@@ -7,7 +7,7 @@ import store from './store'
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+import VueResource from 'vue-resource'
 
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
@@ -19,3 +19,5 @@ new Vue({
   template: '<App/>',
   components: {App}
 });
+
+Vue.use(VueResource);

@@ -39,7 +39,6 @@
           // You can use these server side with your app's credentials to access the Twitter API.
           self.setUserToken(result.credential.accessToken);
           self.setUserSecret(result.credential.secret)
-
         }).catch(function(error) {
           console.log('Nu blir det error' + error);
         })
