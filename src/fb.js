@@ -15,8 +15,6 @@ const config = {
 
 const firebaseApp = Firebase.initializeApp(config);
 
-
-
 // Authentication
 const auth = Firebase.auth();
 const auth_provider = new Firebase.auth.TwitterAuthProvider();
