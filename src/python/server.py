@@ -17,8 +17,9 @@ parser.add_argument('consumer_key')
 parser.add_argument('consumer_secret')
 parser.add_argument('access_token')
 parser.add_argument('access_token_secret')
+parser.add_argument('term')
 
-tweets = {}
+tweets = []
 
 class GetTweets(Resource):
     def get(self):
@@ -31,7 +32,7 @@ class GetTweets(Resource):
         #print(args)
         api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
         # print(api.VerifyCredentials())
-        st = api.GetUserTimeline()
+        st = api.GetUserTimeline(count=199)
         print(type(st))
         dmp = []
         for s in st:
@@ -40,13 +41,31 @@ class GetTweets(Resource):
             print()
             dmp.append(json.loads(str(s)))
 
-        # dmp = {st[i]: st[i+1] for i in range(0, len(st), 2)}
+        api.ClearCredentials()
         return dmp, 201
 
+class SearchTweets(Resource):
+    def get(self):
+        return {"User post"}
+
+    def post(self):
+        args = parser.parse_args()
+        api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
+
+        tw = api.GetSearch(term=args['term'])
+
+        dmp = []
+        for t in tw:
+            dmp.append(json.loads(str(t)))
+
+        api.ClearCredentials()
+        return dmp, 201
 
 api.add_resource(GetTweets, '/api/gettweets')
+api.add_resource(SearchTweets, '/api/search')
 
-
+# GetMentions
+# GetSearch
 
 if __name__ == '__main__':
     app.run()
