@@ -4,9 +4,10 @@
     <textarea
         v-model.trim="newPost"
         @input="addProfileText"
-        placeholder="Write here to update profile text"
+
       >
       </textarea>
+      <button v-on:click="getProfileText">Get profile text</button>
     <hr>
     <div class="row">
       <div class="smallBox col">
@@ -98,6 +99,12 @@
       },
       removeProfileText: function (profiletext) {
         this.userDb.child(profiletext['.key']).remove()
+      },
+      getProfileText: function() {
+        var child = this.userDb.child('profiletext');
+        child.once('value', function(snapshot) {
+          console.log(snapshot.val());
+        });
       },
       getTweetsData: function () {
         return {
