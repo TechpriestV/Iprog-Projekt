@@ -62,6 +62,7 @@ class SearchTweets(Resource):
         return dmp, 201
 
 api.add_resource(GetTweets, '/api/gettweets')
+api.add_resource(SearchTweets, '/api/search')
 
 # GetMentions
 # GetSearch
