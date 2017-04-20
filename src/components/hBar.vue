@@ -11,7 +11,15 @@
         // this.options = {...}
         this.defaultOptions = {
           responsive: true,
-          maintainAspectRatio: false
+          maintainAspectRatio: false,
+          scales: {
+            xAxes: [{
+              gridLines: false
+            }],
+            yAxes: [{
+              gridLines: false
+            }]
+          }
         };
         this.renderChart(this.data, this.defaultOptions)
       }else{

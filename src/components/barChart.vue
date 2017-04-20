@@ -15,8 +15,15 @@
           scales: {
             xAxes: [{
               barPercentage: 1.0,
-              categoryPercentage: 1.0
+              categoryPercentage: 1.0,
+              gridLines: false
               // categorySpacing: 0
+            }],
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              },
+              gridLines: false
             }]
           }
         };
