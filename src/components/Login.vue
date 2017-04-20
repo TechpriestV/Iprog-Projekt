@@ -22,7 +22,8 @@
     computed: {
       ...mapGetters([
     		  'user',
-          'logged_in'
+          'logged_in',
+          'userDb'
         ])
     },
     methods: {
@@ -37,8 +38,8 @@
     		auth.signInWithPopup(auth_provider).then(function(result) {
           // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
           // You can use these server side with your app's credentials to access the Twitter API.
-          self.setUserToken(result.credential.accessToken);
-          self.setUserSecret(result.credential.secret)
+          self.setUser(result.user);
+          self.userDb.update({token: result.credential.accessToken, seccret: result.credential.secret})
         }).catch(function(error) {
           console.log('Nu blir det error' + error);
         })
@@ -50,7 +51,6 @@
         }).catch(function(error) {
           console.log(error)
         });
-
       },
       start: function () {
         this.$router.push({name: 'User'})

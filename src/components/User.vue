@@ -1,5 +1,5 @@
 <template>
-  <div class="user col">
+  <div class="user col-sm-10">
     <h1>Dashboard</h1>
     <hr>
     <div class="row">
@@ -38,22 +38,18 @@
     computed: {
       ...mapGetters([
         'user',
-        'logged_in',
-        'user_token',
-        'user_secret'
+        'logged_in'
       ])
     },
     mounted: function () {
         console.log("Här borde user sevret komma> ");
-        console.log(this.user_secret);
-        console.log(this.user_token);
 
         if (this.user_token && this.user_secret) {
           const tweetInfo = {
             consumer_key: '45QA0HdFT6J2DDgvScJs6FKxb',
             consumer_secret: '7Qm1KywGDIDVyVfG0JfgAZifZNPzPuudi4AjOL6nlIUB56QNLi',
-            access_token: this.user_token,
-            access_token_secret: this.user_secret
+            access_token: false, // ska ändras till db ref
+            access_token_secret: false // ska ändras till db ref
           };
 
           const serverURL = 'http://localhost:5000/api/gettweets';

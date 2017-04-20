@@ -1,6 +1,7 @@
 <template>
   <div class="sidebar col-sm-2">
-    <h4><img :src="user.photoURL" alt=""> @{{user.displayName}}</h4>
+    <h4><img :src="user.photoURL" alt="">   {{user.displayName}}</h4>
+    <button v-on:click="testDb">Test</button>
   </div>
 </template>
 
@@ -14,13 +15,12 @@
     computed: {
       ...mapGetters([
         'user',
-        'logged_in'
+        'logged_in',
+        'userDb'
       ])
     },
     methods: {
       ...mapMutations([
-        'setUserToken',
-        'setUserSecret',
         'setUser',
         'setLoggedIn'
       ]),
@@ -31,7 +31,9 @@
         }).catch(function(error) {
           console.log(error)
         });
-
+      },
+      testDb: function () {
+        this.userDb.update({test:'test2'})
       }
     },
     mounted: function () {
@@ -39,7 +41,6 @@
       auth.onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
-          console.log(user);
           self.setUser(user);
           self.setLoggedIn(true);
         } else {
