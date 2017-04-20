@@ -1,6 +1,12 @@
 <template>
   <div class="user col-sm-10">
     <h1>Dashboard</h1>
+    <textarea
+        v-model.trim="newPost"
+        @input="addProfileText"
+        placeholder="Write here to update profile text"
+      >
+      </textarea>
     <hr>
     <div class="row">
       <div class="smallBox col">
@@ -38,6 +44,7 @@
     computed: {
       ...mapGetters([
         'user',
+        'userDb',
         'logged_in'
       ])
     },
@@ -75,9 +82,23 @@
         data2: this.getInteractionData(),
         data3: this.getGoalData(),
         data4: this.historicalData(),
+        newPost: ''
       }
     },
     methods:{
+      addProfileText: function () {
+        if (this.newPost) {
+          this.userDb.update({
+            profiletext: this.newPost
+          })
+        }
+      },
+      updateProfileText: function (profiletext, newText) {
+        this.userDb.child(profiletext['.key']).child('text').update(newText)
+      },
+      removeProfileText: function (profiletext) {
+        this.userDb.child(profiletext['.key']).remove()
+      },
       getTweetsData: function () {
         return {
           labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
