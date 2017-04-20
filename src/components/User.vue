@@ -1,6 +1,20 @@
 <template>
   <div class="user">
     <h1>{{ msg }} <span>{{ user.uid }}</span></h1>
+    <input
+        v-model.trim="newItem"
+        @keyup.enter="addItem"
+        placeholder="Add new item"
+      >
+    <ul>
+        <li v-for="item in items">
+          <input
+            :value="item.text"
+            @input="updateItem(item, $event.target.value)"
+          >
+          <button @click="removeItem(item)">X</button>
+        </li>
+      </ul>
     <hr>
     <div class="smallBox">
       <!-- <hBar :data='data1'/> -->
@@ -35,6 +49,8 @@
   import { mapMutations } from 'vuex'
   import { mapGetters } from 'vuex'
 
+  var itemRef = db.ref('/items');
+
   export default {
     name: 'user',
     components : {hBar, lineChart, dNutChart, barChart},
@@ -44,6 +60,9 @@
         'logged_in'
       ])
     },
+    firebase: {
+      items: itemRef.limitToLast(25)
+    },
     data () {
       return {
         msg: 'User Id: ',
@@ -51,9 +70,25 @@
         data2: this.getInteractionData(),
         data3: this.getGoalData(),
         data4: this.historicalData(),
+        newItem: ''
       }
     },
     methods:{
+      addItem: function () {
+        if (this.newItem) {
+          itemRef.push({
+            text: this.newItem
+          })
+          this.newItem = ''
+        }
+      },
+      updateItem: function (item, newText) {
+        itemRef.child(item['.key']).child('text').set(newText)
+      },
+      removeItem: function (item) {
+        itemRef.child(item['.key']).remove()
+      },
+
       getTweetsData: function () {
         return {
           labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
