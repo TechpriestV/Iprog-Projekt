@@ -11,6 +11,7 @@ import dNutChart from '@/components/dNutChart'
 import barChart from '@/components/barChart'
 import UserPage from '@/components/UserPage'
 import Sidebar from '@/components/Sidebar'
+import Profile from '@/components/Profile'
 // import XX from '@/components/XX'
 
 
@@ -39,6 +40,11 @@ export default new Router({
         path: 'retweets',
         name: 'Retweets',
         component: Hello
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: Profile
       }]
 
     },
