@@ -50,7 +50,7 @@
             consumer_key: '45QA0HdFT6J2DDgvScJs6FKxb',
             consumer_secret: '7Qm1KywGDIDVyVfG0JfgAZifZNPzPuudi4AjOL6nlIUB56QNLi',
             access_token: false, // ska ändras till db ref
-            access_token_secret: false // ska ändras till db ref
+            access_token_secret: false, // ska ändras till db ref
           };
 
           const serverURL = 'http://localhost:5000/api/gettweets';
@@ -67,14 +67,6 @@
         } else (
           console.log("Not signed in! Should kick user back!")
         )
-
-        var child = this.userDb.child('profiletext'); 
-        var self = this;
-        // console.log(this.userDb)
-        child.on('value', function(snapshot) {
-            self.newPost = snapshot.val()
-        });
-
     },
     data () {
       return {

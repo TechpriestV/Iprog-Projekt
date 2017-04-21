@@ -39,7 +39,7 @@
           // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
           // You can use these server side with your app's credentials to access the Twitter API.
           self.setUser(result.user);
-          self.userDb.update({token: result.credential.accessToken, seccret: result.credential.secret})
+          self.userDb.update({token: result.credential.accessToken, secret: result.credential.secret})
         }).catch(function(error) {
           console.log('Nu blir det error' + error);
         })
