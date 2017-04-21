@@ -14,16 +14,20 @@
           maintainAspectRatio: false,
           scales: {
             xAxes: [{
-              barPercentage: 1.0,
-              categoryPercentage: 1.0,
-              gridLines: false
+              barPercentage: 0.99,
+              categoryPercentage: 0.99,
+              gridLines: {
+                display: false
+              }
               // categorySpacing: 0
             }],
             yAxes: [{
               ticks: {
                 beginAtZero: true
               },
-              gridLines: false
+              gridLines: {
+                display: false
+              }
             }]
           }
         };

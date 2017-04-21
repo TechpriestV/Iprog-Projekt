@@ -14,10 +14,14 @@
           maintainAspectRatio: false,
           scales: {
             xAxes: [{
-              gridLines: false
+              gridLines: {
+                display: false
+              }
             }],
             yAxes: [{
-              gridLines: false
+              gridLines: {
+                display: false
+              }
             }]
           }
         };
