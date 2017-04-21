@@ -1,18 +1,54 @@
 <template>
-  <div class="search">
-    <h1>{{ msg }}</h1>
+  <div class="search col-sm-10">
+    <h1>Search Page</h1>
+    <input v-model="searchInput"
+        @keyup.enter="search"
+        placeholder="Search tweets">
+    <h2>Search history</h2>
     <ul>
-      <li><a href="/#/">Back Home</a></li>
+      <li v-for="searchpost in searches">{{ searchpost.search }}</li>
     </ul>
   </div>
 </template>
 
 <script>
+  import { auth_provider, db, auth } from '../fb'
+  import { mapMutations } from 'vuex'
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'search',
+    computed: {
+      ...mapGetters([
+        'user',
+        'userDb',
+        'logged_in'
+      ])
+    },
+    mounted: function () {
+      var ref = this.userDb.child('searchhistory')
+      this.userTweetRef = ref;
+    },
+    firebase: function() {
+      var ref = this.userDb.child('searchhistory');
+      return {
+        searches: ref.limitToLast(25)
+      }  
+    },
     data () {
       return {
-        msg: 'Search page'
+        searchInput: '',
+        userTweetRef: ''
+      }
+    },
+    methods:{
+      search: function () {
+        if (this.searchInput) {
+          this.userTweetRef.push({
+            search: this.searchInput
+          })
+          this.searchInput = '';
+        }
       }
     }
   }
@@ -20,8 +56,22 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h1, h2 {
-    font-weight: normal;
+.user {
+  text-align: left;
+}
+hr {
+  border-top: #f0f0f0;
+  border-left: none;
+  border-right: none;
+  padding: 10px;
+  width: 100%;
+  }
+h1, h2 {
+  font-weight: normal;
+  }
+h4 {
+    font-weight: lighter;
+    font-style: italic;
   }
 
   ul {

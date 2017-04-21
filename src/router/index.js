@@ -24,23 +24,25 @@ export default new Router({
       component: Hello, Login
     },
     {
-      path: '/search',
-      name: 'Search',
-      component: Search
-    },
-    {
       path: '/user',
       component: UserPage, Sidebar,
-      children: [{
-        path: '',
-        name: 'User',
-        component: User, hBar, lineChart, dNutChart, barChart
-      },
-      {
-        path: '/user/profile',
-        component: Profile
-      }]
-
+      children: [
+        {
+          path: '',
+          name: 'User',
+          component: User, hBar, lineChart, dNutChart, barChart
+        },
+        {
+          path: '/user/profile',
+          name: 'Profile',
+          component: Profile
+        },
+        {
+          path: '/search',
+          name: 'Search',
+          component: Search
+        }
+      ]
     },
     {
       path: '/linnea',
