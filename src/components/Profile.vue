@@ -1,6 +1,7 @@
 <template>
   <div class="user col-sm-10">
     <h1>Profile Page</h1>
+    <h2>Description</h2>
     <textarea
         v-model="newPost"
         @input="addProfileText"
@@ -52,15 +53,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .user {
-  }
-.bigBox {
-  height: 300px;
-  background-color: #f0f0f0;
+  text-align: left;
 }
-.smallBox {
-  height: 180px;
-  background-color: #f0f0f0;
-  }
 hr {
   border-top: #f0f0f0;
   border-left: none;
