@@ -41,6 +41,6 @@ export default new Router({
       path: '/linnea',
       name: 'Linnea',
       component: Linnea, hBar
-    },
+    }
   ]
 })
