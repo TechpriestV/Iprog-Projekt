@@ -43,7 +43,7 @@
       ])
     },
     mounted: function () {
-        console.log("Här borde user sevret komma> ");
+        console.log("Här borde user sevret komma ");
 
         if (this.user_token && this.user_secret) {
           const tweetInfo = {
@@ -67,14 +67,6 @@
         } else (
           console.log("Not signed in! Should kick user back!")
         );
-
-        var child = this.userDb.child('profiletext');
-        var self = this;
-        // console.log(this.userDb)
-        child.on('value', function(snapshot) {
-            self.newPost = snapshot.val()
-        });
-
     },
     data () {
       return {
