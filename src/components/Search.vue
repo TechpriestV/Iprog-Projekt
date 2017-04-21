@@ -3,12 +3,12 @@
     <h1>Search Page</h1>
     <input v-model="searchInput"
         @keyup.enter="search"
-        placeholder="Search tweets">
+        placeholder="Search user">
     <div class="searchResults">
       <h2>Result</h2>
-        <div class="searchResults__tweet" v-for="tweet in displayTweets">
-          <div class="displayName">{{ tweet.user.name }}</div>
-          <div class="displayText">{{ tweet.text }}</div>
+        <div class="searchResults__tweet">
+          <div class="displayName"><h3>{{ user.name }} - @{{ user.screen_name }}</h3></div>
+          <!-- <div class="displayText">{{ tweet.text }}</div> -->
         </div>
     </div>
     <h2>Search history</h2>
@@ -46,7 +46,7 @@
       return {
         searchInput: '',
         userTweetRef: '',
-        displayTweets: []
+        user : {}
       }
     },
     methods:{
@@ -57,13 +57,9 @@
           this.userTweetRef.push({
             search: this.searchInput
           })
-          var tweets = this.getSearchTweets(this.searchInput, function(tweets){
-            console.log('tweets');
-            // console.log(tweets);
-            var i;
-            for (i in tweets){
-              self.displayTweets.push(tweets[i]);
-            }
+          this.getSearchTweets(this.searchInput, function(user){
+              self.user = user;
+              console.log(user);
           });
           this.searchInput = '';
         }
@@ -95,8 +91,7 @@
             self.$http.post(serverURL, tweetInfo).then(response => {
               self.someData = response.body;
               // Return the tweets
-              cb(self.someData);
-              return self.someData
+              cb(JSON.parse(self.someData));
             }, response => {
               // error callback
               console.log("Error");
