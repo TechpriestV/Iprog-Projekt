@@ -32,7 +32,7 @@ export default new Router({
       path: '/user',
       component: UserPage, Sidebar,
       children: [{
-        path: '',
+        path: 'dashboard',
         name: 'User',
         component: User, hBar, lineChart, dNutChart, barChart
       },
@@ -45,8 +45,11 @@ export default new Router({
         path: 'profile',
         name: 'Profile',
         component: Profile
+      },
+      {
+        path: '',
+        redirect: { name: 'User'}
       }]
-
     },
     {
       path: '/linnea',

@@ -5,11 +5,9 @@
     </div>
     <div class="navigation">
       <ul>
-        <li><router-link :to="{name:'User'}">Dashboard</router-link></li>
-        <li><router-link :to="{name:'Retweets'}">Retweets</router-link></li>
-        <li><router-link :to="{name:'Retweets'}">Favorites</router-link></li>
-        <li><router-link :to="{name:'Profile'}">Profile</router-link></li>
-        <li><router-link :to="{name:'Retweets'}">Search</router-link></li>
+        <router-link :to="{name:'User'}" tag="li" active-class="active">Dashboard</router-link>
+        <router-link :to="{name:'Profile'}" tag="li" active-class="active">Profile</router-link>
+        <router-link :to="{name:'Retweets'}" tag="li" active-class="active">Search</router-link>
       </ul>
     </div>
   </div>
@@ -66,6 +64,7 @@
   .sidebar {
     background-color: #f5f5f5;
     height: 100vh;
+    padding: 0;
   }
 
   img {
@@ -80,6 +79,21 @@
   ul {
     list-style: none;
     padding: 0;
+  }
+
+  li {
+
+  }
+
+  li:hover {
+    background-color: white;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .active {
+    background-color: white;
+    text-decoration: none;
   }
 
 </style>
