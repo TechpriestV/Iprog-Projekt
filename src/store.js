@@ -13,8 +13,6 @@ export default new Vuex.Store({
   getters: {
     user: state => state.user,
     logged_in: state => state.logged_in,
-    user_token: state => state.user_token,
-    user_secret: state => state.user_secret,
     userDb: state => state.userDb
   },
   mutations: {
@@ -24,12 +22,6 @@ export default new Vuex.Store({
     },
     setLoggedIn(state, value) {
       state.logged_in = value
-    },
-    setUserToken(state, token) {
-      state.user_token = token
-    },
-    setUserSecret(state, secret) {
-      state.user_secret = secret
     }
   }
 })

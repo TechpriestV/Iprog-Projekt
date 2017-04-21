@@ -43,42 +43,27 @@
       ])
     },
     mounted: function () {
-        console.log("Här borde user sevret komma> ");
+      console.log("Mounted");
 
-        if (this.user_token && this.user_secret) {
-          const tweetInfo = {
-            consumer_key: '45QA0HdFT6J2DDgvScJs6FKxb',
-            consumer_secret: '7Qm1KywGDIDVyVfG0JfgAZifZNPzPuudi4AjOL6nlIUB56QNLi',
-            access_token: false, // ska ändras till db ref
-            access_token_secret: false // ska ändras till db ref
-          };
+      var self = this;
 
-          const serverURL = 'http://localhost:5000/api/gettweets';
-          this.$http.post(serverURL, tweetInfo).then(response => {
-            this.someData = response.body;
-            console.log(this.someData);
-          }, response => {
-            // error callback
-            console.log("Error");
-            if (response.body) {
-              console.log(response.body.message);
-            }
-          });
-        } else (
-          console.log("Not signed in! Should kick user back!")
-        )
-
-        var child = this.userDb.child('profiletext'); 
-        var self = this;
-        // console.log(this.userDb)
-        child.on('value', function(snapshot) {
-            self.newPost = snapshot.val()
-        });
-
+      auth.onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          console.log("Inloggad");
+          self.setUser(user);
+          self.setLoggedIn(true);
+          self.twitter()
+        } else {
+          console.log("Utloggad");
+          self.setUser(false);
+          self.setLoggedIn(false);
+          self.$router.push({name: 'Hello'})
+        }
+      })
     },
     data () {
       return {
-        msg: 'User Id: ',
         data1: this.getTweetsData(),
         data2: this.getInteractionData(),
         data3: this.getGoalData(),
@@ -86,6 +71,10 @@
       }
     },
     methods:{
+      ...mapMutations([
+        'setUser',
+        'setLoggedIn'
+      ]),
       getTweetsData: function () {
         return {
           labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
@@ -156,6 +145,51 @@
         };
       return data
 
+      },
+      twitter: function () {
+
+      	var self = this;
+        var userTokenRef = this.userDb.child('token');
+        var userSecretRef = this.userDb.child('secret');
+
+        userTokenRef.once('value').then( function (snapshot) {
+          var token = snapshot.val();
+          console.log(token);
+
+          userSecretRef.once('value').then(function (snapshot) {
+            var secret = snapshot.val();
+            console.log(secret);
+            twitterReq(token, secret);
+          });
+        });
+        console.log("Nu?");
+
+        function twitterReq(token, secret) {
+          console.log("token: " + token);
+          console.log("secret: " + secret);
+          if (token && secret) {
+            const tweetInfo = {
+              consumer_key: '45QA0HdFT6J2DDgvScJs6FKxb',
+              consumer_secret: '7Qm1KywGDIDVyVfG0JfgAZifZNPzPuudi4AjOL6nlIUB56QNLi',
+              access_token: token, // ska ändras till db ref
+              access_token_secret: secret // ska ändras till db ref
+            };
+
+            const serverURL = 'http://localhost:5000/api/gettweets';
+            self.$http.post(serverURL, tweetInfo).then(response => {
+              self.someData = response.body;
+              console.log(self.someData);
+            }, response => {
+              // error callback
+              console.log("Error");
+              if (response.body) {
+                console.log(response.body.message);
+              }
+            });
+          } else (
+            console.log("Not signed in! Should kick user back!")
+          )
+        }
       }
     }
   }
