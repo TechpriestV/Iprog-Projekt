@@ -8,7 +8,7 @@
         <li><router-link :to="{name:'User'}">Dashboard</router-link></li>
         <li><router-link :to="{name:'Retweets'}">Retweets</router-link></li>
         <li><router-link :to="{name:'Retweets'}">Favorites</router-link></li>
-        <li><router-link :to="{name:'Retweets'}">Profile</router-link></li>
+        <li><router-link :to="{name:'Profile'}">Profile</router-link></li>
         <li><router-link :to="{name:'Retweets'}">Search</router-link></li>
       </ul>
     </div>

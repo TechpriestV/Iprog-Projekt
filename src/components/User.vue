@@ -66,9 +66,9 @@
           });
         } else (
           console.log("Not signed in! Should kick user back!")
-        )
+        );
 
-        var child = this.userDb.child('profiletext'); 
+        var child = this.userDb.child('profiletext');
         var self = this;
         // console.log(this.userDb)
         child.on('value', function(snapshot) {
