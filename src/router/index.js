@@ -34,6 +34,11 @@ export default new Router({
         path: '',
         name: 'User',
         component: User, hBar, lineChart, dNutChart, barChart
+      },
+      {
+        path: 'retweets',
+        name: 'Retweets',
+        component: Hello
       }]
 
     },
