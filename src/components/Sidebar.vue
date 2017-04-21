@@ -1,7 +1,17 @@
 <template>
   <div class="sidebar col-sm-2">
-    <h4><img :src="user.photoURL" alt="">   {{user.displayName}}</h4>
-    <button v-on:click="testDb">Test</button>
+    <div class="profile-info">
+      <h4><img :src="user.photoURL" alt=""> {{user.displayName}}</h4>
+    </div>
+    <div class="navigation">
+      <ul>
+        <li><router-link :to="{name:'User'}">Dashboard</router-link></li>
+        <li><router-link :to="{name:'Retweets'}">Retweets</router-link></li>
+        <li><router-link :to="{name:'Retweets'}">Favorites</router-link></li>
+        <li><router-link :to="{name:'Retweets'}">Profile</router-link></li>
+        <li><router-link :to="{name:'Retweets'}">Search</router-link></li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -31,9 +41,6 @@
         }).catch(function(error) {
           console.log(error)
         });
-      },
-      testDb: function () {
-        this.userDb.update({test:'test2'})
       }
     },
     mounted: function () {
@@ -57,13 +64,22 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .sidebar {
-    background-color: #999;
+    background-color: #f5f5f5;
     height: 100vh;
   }
 
   img {
     height: 40px;
     border-radius: 20px;
+  }
+
+  .profile-info {
+    margin: 30px 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
   }
 
 </style>

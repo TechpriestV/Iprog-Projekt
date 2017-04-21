@@ -37,7 +37,13 @@ export default new Router({
         component: User, hBar, lineChart, dNutChart, barChart
       },
       {
-        path: '/user/profile',
+        path: 'retweets',
+        name: 'Retweets',
+        component: Hello
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
         component: Profile
       }]
 
