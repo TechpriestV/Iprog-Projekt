@@ -6,6 +6,7 @@ from flask_restful import reqparse, abort, Api, Resource
 import twitter
 from flask_cors import CORS
 import json
+import datetime
 
 app = Flask(__name__)
 api = Api(app)
@@ -19,7 +20,34 @@ parser.add_argument('access_token')
 parser.add_argument('access_token_secret')
 parser.add_argument('term')
 
-tweets = []
+# tweets = []
+
+class LastSevenDays(Resource):
+    def get(self):
+        return {"Use post"}
+
+    def post(self):
+        args = parser.parse_args()
+
+        #print(args)
+        api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
+        # print(api.VerifyCredentials())
+        tweets = api.GetUserTimeline(count=199)
+        # print(type(tweets))
+        today = datetime.date.today()
+        print(today)
+        dmp = []
+        for tweet in tweets:
+            timestamp = tweet.created_at.split()
+            date = [timestamp[5], timestamp[1], timestamp[2]] #y, m, d
+            print(date)
+            # if timestamp[]
+            # print(tweet.created_at.split())
+            # print()
+            dmp.append(json.loads(str(tweet)))
+
+        api.ClearCredentials()
+        return dmp, 201
 
 class GetTweets(Resource):
     def get(self):
@@ -61,7 +89,7 @@ class SearchTweets(Resource):
         api.ClearCredentials()
         return dmp, 201
 
-api.add_resource(GetTweets, '/api/gettweets')
+api.add_resource(LastSevenDays, '/api/gettweets')
 api.add_resource(SearchTweets, '/api/search')
 
 # GetMentions
