@@ -1,13 +1,6 @@
 <template>
   <div class="user col-sm-10">
     <h1>Dashboard</h1>
-    <textarea
-        v-model.trim="newPost"
-        @input="addProfileText"
-
-      >
-      </textarea>
-      <button v-on:click="getProfileText">Get profile text</button>
     <hr>
     <div class="row">
       <div class="smallBox col">
@@ -75,6 +68,13 @@
           console.log("Not signed in! Should kick user back!")
         )
 
+        var child = this.userDb.child('profiletext'); 
+        var self = this;
+        // console.log(this.userDb)
+        child.on('value', function(snapshot) {
+            self.newPost = snapshot.val()
+        });
+
     },
     data () {
       return {
@@ -83,29 +83,9 @@
         data2: this.getInteractionData(),
         data3: this.getGoalData(),
         data4: this.historicalData(),
-        newPost: ''
       }
     },
     methods:{
-      addProfileText: function () {
-        if (this.newPost) {
-          this.userDb.update({
-            profiletext: this.newPost
-          })
-        }
-      },
-      updateProfileText: function (profiletext, newText) {
-        this.userDb.child(profiletext['.key']).child('text').update(newText)
-      },
-      removeProfileText: function (profiletext) {
-        this.userDb.child(profiletext['.key']).remove()
-      },
-      getProfileText: function() {
-        var child = this.userDb.child('profiletext');
-        child.once('value', function(snapshot) {
-          console.log(snapshot.val());
-        });
-      },
       getTweetsData: function () {
         return {
           labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
