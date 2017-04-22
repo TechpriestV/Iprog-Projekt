@@ -55,7 +55,7 @@ class SearchTweets(Resource):
         args = parser.parse_args()
         api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
 
-        tw = api.GetUserTimeline(screen_name=args['term'])
+        tw = api.GetUserTimeline(screen_name=args['term'], count=100, include_rts=False)
         
         dmp = []
         for s in tw:

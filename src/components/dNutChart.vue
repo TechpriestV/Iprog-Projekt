@@ -6,7 +6,7 @@
 
   export default Doughnut.extend({
     mixins: [reactiveProp],
-    props: ['data','options', 'height','width'],
+    props: ['options', 'height','width'],
     mounted(){
       if (!this.options){
         // Define defualt options here
