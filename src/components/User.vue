@@ -10,7 +10,7 @@
         <lineChart :data='data2' :height='175' />
       </div>
       <div class="smallBox col">
-        <dNutChart :data='data3' :height='175' />
+        <dNutChart :chart-data='data3' :height='175' />
       </div>
     </div>
     <div class="row">
@@ -43,6 +43,8 @@
       ])
     },
     mounted: function () {
+
+        this.getGoalData();
         console.log("Här borde user sevret komma> ");
 
         if (this.user_token && this.user_secret) {
@@ -73,7 +75,7 @@
         msg: 'User Id: ',
         data1: this.getTweetsData(),
         data2: this.getInteractionData(),
-        data3: this.getGoalData(),
+        data3: {},
         data4: this.historicalData(),
       }
     },
@@ -104,7 +106,10 @@
         }
       },
       getGoalData: function () {
-        return {
+        var favs = 100;
+        var rt = 200;
+        var rep = 30;
+        this.data3 = {
           labels: [
             "Favs",
             "Replies",
@@ -113,7 +118,7 @@
           datasets: [
 
                {
-              data: [300, 50, 100],
+              data: [favs, rt, rep],
               backgroundColor: [
                 "#FF6384",
                 "#36A2EB",
