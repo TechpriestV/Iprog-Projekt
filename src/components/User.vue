@@ -70,7 +70,6 @@
     },
     data () {
       return {
-        tweetsdata: [3, 2,3,1,3,0,1],
         msg: 'User Id: ',
         data1: this.getTweetsData(),
         data2: this.getInteractionData(),
@@ -86,7 +85,7 @@
             {
               label: 'Tweets',
               backgroundColor: '#f87979',
-              data: this.tweetsdata
+              data: [3, 2,3,1,3,0,1]
             }
           ]
         }

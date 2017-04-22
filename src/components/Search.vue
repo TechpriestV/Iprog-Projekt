@@ -46,7 +46,7 @@
       return {
         searchInput: '',
         userTweetRef: '',
-        user : {}
+        tweetList : []
       }
     },
     methods:{
@@ -58,8 +58,13 @@
             search: this.searchInput
           })
           this.getSearchTweets(this.searchInput, function(user){
-              self.user = user;
-              console.log(user);
+              // self.user = user;
+              // console.log(user);
+              var i;
+              for (i in user){
+                self.tweetList.push(user[i]);
+              }
+              console.log(self.tweetList);
           });
           this.searchInput = '';
         }
@@ -91,7 +96,7 @@
             self.$http.post(serverURL, tweetInfo).then(response => {
               self.someData = response.body;
               // Return the tweets
-              cb(JSON.parse(self.someData));
+              cb(self.someData);
             }, response => {
               // error callback
               console.log("Error");

@@ -34,6 +34,7 @@ class GetTweets(Resource):
         # print(api.VerifyCredentials())
 
         ## If we want to search timeline of different user, we could just pass user displayname here...
+
         st = api.GetUserTimeline(count=199)
         print(type(st))
         dmp = []
@@ -54,16 +55,16 @@ class SearchTweets(Resource):
         args = parser.parse_args()
         api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
 
-        tw = api.GetUser(screen_name=args['term'])
-        print('typ:')
-        print (type(tw))
-        nw = str(tw)
+        tw = api.GetUserTimeline(screen_name=args['term'])
+        
+        dmp = []
+        for s in tw:
+            dmp.append(json.loads(str(s)))
 
         # Need to add error handler here, in case user does not exist...
 
-
         api.ClearCredentials()
-        return nw, 201
+        return dmp, 201
 
 api.add_resource(GetTweets, '/api/gettweets')
 api.add_resource(SearchTweets, '/api/search')
