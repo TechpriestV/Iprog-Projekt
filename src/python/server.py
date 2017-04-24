@@ -44,7 +44,7 @@ class LastSevenDays(Resource):
     def post(self):
         args = parser.parse_args()
         api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
-        tweets = api.GetUserTimeline(count=199)
+        tweets = api.GetUserTimeline(screen_name=args['term'], count=199, include_rts=False)
         api.ClearCredentials()
         rV = getWeek(tweets)
         return json.dumps(list(rV)), 201

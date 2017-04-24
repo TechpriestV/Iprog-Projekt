@@ -130,11 +130,12 @@
               access_token_secret: secret,
               term: searchterm
             };
-            const serverURL = 'http://localhost:5000/api/search';
+            const serverURL = 'http://localhost:5000/api/lastseven';
             self.$http.post(serverURL, tweetInfo).then(response => {
               self.someData = response.body;
               // Return the tweets
-              cb(self.someData);
+              console.log(self.someData);
+              // cb(self.someData);
             }, response => {
               // error callback
               console.log("Error");
