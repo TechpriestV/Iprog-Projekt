@@ -2,7 +2,7 @@
 <!-- Component for Munkchart-->
 <script>
   import { Doughnut, mixins } from 'vue-chartjs';
-  const { reactiveProp } = mixins
+  const { reactiveProp } = mixins;
 
   export default Doughnut.extend({
     mixins: [reactiveProp],

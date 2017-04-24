@@ -1,10 +1,12 @@
 
 <!-- Component for Barchart-->
 <script>
-  import { Bar } from 'vue-chartjs';
+  import { Bar, mixins } from 'vue-chartjs';
+  const { reactiveProp } = mixins;
 
   export default Bar.extend({
-    props: ['data', 'options', 'height','width'],
+    mixins: [reactiveProp],
+    props: ['options', 'height','width'],
     mounted(){
       if (!this.options){
         // Define defualt options here
@@ -31,9 +33,9 @@
             }]
           }
         };
-        this.renderChart(this.data, this.defaultOptions)
+        this.renderChart(this.chartData, this.defaultOptions)
       }else {
-        this.renderChart(this.data, this.options)
+        this.renderChart(this.chartData, this.options)
       };
     }
   });

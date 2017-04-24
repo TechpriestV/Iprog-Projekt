@@ -4,13 +4,14 @@
     <input v-model="searchInput"
         @keyup.enter="search"
         placeholder="Search user">
+    <h2>{{ latestSearch }}</h2>
 
     <div class="row">
       <div class="smallBox col">
-        <hBar :data='data1' :height='175' />
+        <hBar :chart-data='tweetsData' :height='175' />
       </div>
       <div class="smallBox col">
-        <lineChart :data='data2' :height='175' />
+        <lineChart :chart-data='interactionData' :height='175' />
       </div>
       <div class="smallBox col">
         <dNutChart :chart-data='goalData' :height='175' />
@@ -19,7 +20,7 @@
     <div class="row">
       <div class="bigBox col">
 
-        <barChart :data='data4' :height='175'/>
+        <barChart :chart-data='historicalData' :height='175'/>
         <!-- <lineChart :data='data4' :height='175' /> -->
       </div>
     </div>
@@ -53,6 +54,9 @@
     },
     mounted: function () {
       this.createGoalChart();
+      this.createInteractionChart();
+      this.createTweetsChart();
+      this.createHistoricalChart();
 
       var ref = this.userDb.child('searchhistory')
       this.userTweetRef = ref;
@@ -68,10 +72,11 @@
         searchInput: '',
         userTweetRef: '',
         tweetList : [],
-        data1: this.getTweetsData(),
-        data2: this.getInteractionData(),
+        tweetsData: {},
+        interactionData: {},
         goalData: {},
-        data4: this.historicalData(),
+        historicalData: {},
+        latestSearch: ''
       }
     },
     methods:{
@@ -90,10 +95,15 @@
               for (i in user){
                 self.tweetList.push(user[i]);
               }
-              // Now we can create the charts. 
+              // Now we can create the charts.
+              self.createTweetsChart(); 
+              self.createInteractionChart();
               self.createGoalChart();
+              self.createHistoricalChart();
               
           });
+
+          this.latestSearch = this.searchInput;
           this.searchInput = '';
         }
       },
@@ -139,9 +149,9 @@
       },
       createGoalChart: function(){
           var i;
-          var favs = 100;
-          var replies = 50;
-          var retweets = 100;
+          var favs = 0;
+          // var replies = 0;
+          var retweets = 0;
           for (i in this.tweetList){
             if (this.tweetList[i].favorite_count){
               favs += this.tweetList[i].favorite_count;
@@ -149,81 +159,198 @@
             if (this.tweetList[i].retweet_count){
               retweets += this.tweetList[i].retweet_count;
             }
-
           }
-          console.log(favs);
-          console.log(retweets);
 
           this.goalData = {
             labels: [
-              "Favs",
-              "Replies",
+              "Favorites",
+              // "Replies",
               "Retweets"
             ],
             datasets: [
-
                  {
-                data: [favs, replies, retweets],
+                // data: [favs, replies, retweets],
+                data: [favs, retweets],
                 backgroundColor: [
                   "#FF6384",
-                  "#36A2EB",
+                  // "#36A2EB",
                   "#FFCE56"
                 ],
                 hoverBackgroundColor: [
                   "#FF6384",
-                  "#36A2EB",
+                  // "#36A2EB",
                   "#FFCE56"
                 ]
               }
             ]
           }
-          console.log(this.goalData);
 
       },
-      getTweetsData: function () {
-        return {
+      createTweetsChart: function () {
+        var i;
+        var dataArray = [0,0,0,0,0,0,0];
+        for (i in this.tweetList){
+          var timestamp = this.tweetList[i].created_at.split('');
+
+          if (timestamp[0] == 'M'){
+            dataArray[0] += 1;
+          }
+          else if(timestamp[0] == 'T'){
+            if (timestamp[1] == 'u'){
+              // Tuesday
+              dataArray[1] += 1;
+            }
+            else {
+              //Thursday
+              dataArray[3] += 1;
+            }
+          }
+          else if(timestamp[0] == 'W'){
+            // Wednesday
+            dataArray[2] +=+ 1;
+          }
+          else if(timestamp[0] == 'F') {
+            // Friday
+            dataArray[4] += 1;
+          }
+          else if (timestamp[0] == 'S'){
+            if (timestamp[1] == 'a'){
+              // Saturday
+              dataArray[5] += 1;
+            }
+            else {
+              dataArray[6] += 1;
+            }
+          }
+        }
+
+        this.tweetsData = {
           labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
           datasets: [
             {
               label: 'Tweets',
               backgroundColor: '#f87979',
-              data: [3, 2,3,1,3,0,1]
+              data: dataArray
             }
           ]
         }
       },
-      getInteractionData: function () {
-        return {
+      createInteractionChart: function () {
+        var i;
+        var dataArray = [0,0,0,0,0,0,0];
+        for (i in this.tweetList){
+          var favs = this.tweetList[i].favorite_count;
+          if (!favs){
+            // If no favs, set it to zero
+            favs = 0;
+          }
+          var rts = this.tweetList[i].retweet_count;
+          if (!rts){
+            rts = 0;
+          }
+          var tot = favs + rts;
+
+          var timestamp = this.tweetList[i].created_at.split(' ');
+
+          if (timestamp[0] == 'Mon'){
+            // Monday
+            dataArray[0] += tot;
+          }
+          else if(timestamp[0] == 'Tue'){
+            // Tuesday
+            dataArray[1] += tot;
+          }
+          else if(timestamp[0] == 'Wed'){
+            // Wednesday
+            dataArray[2] += tot;
+          }
+          else if(timestamp[0] == 'Thu') {
+            // Friday
+            dataArray[3] += tot;
+          }
+          else if(timestamp[0] == 'Fri') {
+            // Friday
+            dataArray[4] += tot;
+          }
+          else if (timestamp[0] == 'Sat'){
+            // Saturday
+            dataArray[5] += tot;
+          }
+          else if (timestamp[0] == 'Sun'){
+            // Sunday
+            dataArray[6] += tot;
+          }
+        }
+
+        this.interactionData = {
           labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
           datasets: [
             {
               label: 'Interactions',
               fill: false,
               backgroundColor: '#36A2EB',
-              data: [1, 0,2,0,1,0,1]
+              data: dataArray
             }
           ]
         }
       },
-      historicalData: function () {
-        var data = {
-          labels: ["January", "Feburai", "Mars", "April", "May", "June", "July", "Agust", "September", "October", "November", "December"],
+      createHistoricalChart: function () {
+        var i;
+        var interactionArray = [0, 0, 0, 0];
+        var tweetArray = [0, 0, 0, 0];
+
+        for (i in this.tweetList){
+          var timestamp = this.tweetList[i].created_at.split(' ');
+          
+          if (timestamp[5] == 2017){
+            var favs = this.tweetList[i].favorite_count;
+            if (!favs){
+              // If no favs, set it to zero
+              favs = 0;
+            }
+            var rts = this.tweetList[i].retweet_count;
+            if (!rts){
+              rts = 0;
+            }
+            var interactions = favs + rts;
+
+            if (timestamp[1] == 'Jan'){
+              interactionArray[0] += interactions;
+              tweetArray[0] += 1;
+            }
+            else if (timestamp[1] == 'Feb'){
+              interactionArray[1] += interactions;
+              tweetArray[1] += 1;
+            }
+            else if (timestamp[1] == 'Mar'){
+              interactionArray[2] += interactions;
+              tweetArray[2] += 1;
+            }
+            else if (timestamp[1] == 'Apr'){
+              interactionArray[3] += interactions;
+              tweetArray[3] += 1;
+            }
+          }
+        }
+
+
+        this.historicalData = {
+          labels: ["January", "Feburai", "Mars", "April"],
           datasets: [
             {
               label: "Tweets",
               backgroundColor: "#f87979",
               fill: false,
-              data: [32,17,24, 20, 14, 10,41,24,17,29,11,32]
+              data: tweetArray
             },
             {
               label: "Interactions",
               backgroundColor: "#36A2EB",
               fill: false,
-              data: [40,13,25,17,22,34,46,11,22,35,31,42]
+              data: interactionArray
             }
           ]
         };
-      return data
 
       }
       // Last method
