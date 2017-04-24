@@ -28,13 +28,15 @@ def getWeek(tweets, weeksBack=0):
     today = datetime.date.today()
     startDate = today - datetime.timedelta(days=today.weekday(), weeks=weeksBack)
     endDate = startDate + datetime.timedelta(days=6)
+    weekTweets = []
     for tweet in tweets:
         timestamp = tweet.created_at.split()
         tweetDate = datetime.date(int(timestamp[5]), int(year[timestamp[1]]), int(timestamp[2]))
         if startDate <= tweetDate <= endDate:
             lastWeek[timestamp[0]] += 1
+            weekTweets.append(tweet)
     weekSum = [lastWeek['Mon'],lastWeek['Tue'],lastWeek['Wed'],lastWeek['Thu'],lastWeek['Fri'],lastWeek['Sat'],lastWeek['Sun']]
-    return weekSum
+    return weekSum, weekTweets
 
 
 class LastSevenDays(Resource):
@@ -46,8 +48,12 @@ class LastSevenDays(Resource):
         api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
         tweets = api.GetUserTimeline(screen_name=args['term'], count=199, include_rts=False)
         api.ClearCredentials()
-        rV = getWeek(tweets)
-        return json.dumps(list(rV)), 201
+        sumTweets, lastWeekTWeets = getWeek(tweets)
+        dmp = []
+        for tweet in lastWeekTWeets:
+            dmp.append(json.loads(str(tweet)))
+        api.ClearCredentials()
+        return dmp, 201
 
 class GetTweets(Resource):
     def get(self):
@@ -73,7 +79,7 @@ class SearchTweets(Resource):
         api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
 
         tw = api.GetUserTimeline(screen_name=args['term'], count=100, include_rts=False)
-        
+
         dmp = []
         for s in tw:
             dmp.append(json.loads(str(s)))
