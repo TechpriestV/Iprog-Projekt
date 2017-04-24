@@ -46,13 +46,21 @@ class LastSevenDays(Resource):
     def post(self):
         args = parser.parse_args()
         api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
-        tweets = api.GetUserTimeline(screen_name=args['term'], count=199, include_rts=False)
+
+        if (args['term']):
+            tweets = api.GetUserTimeline(screen_name=args['term'], count=199, include_rts=False)
+        else:
+            tweets = api.GetUserTimeline(count=199, include_rts=False)
+
+        
         api.ClearCredentials()
-        sumTweets, lastWeekTWeets = getWeek(tweets, 1)
+        sumTweets, lastWeekTWeets = getWeek(tweets)
         dmp = []
         for tweet in lastWeekTWeets:
             dmp.append(json.loads(str(tweet)))
         api.ClearCredentials()
+
+
         return dmp, 201
 
 class GetTweets(Resource):
@@ -62,7 +70,7 @@ class GetTweets(Resource):
     def post(self):
         args = parser.parse_args()
         api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
-        st = api.GetUserTimeline(count=199)
+        st = api.GetUserTimeline(count=199, include_rts=False)
         print(type(st))
         dmp = []
         for tweet in tweets:
@@ -78,7 +86,10 @@ class SearchTweets(Resource):
         args = parser.parse_args()
         api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
 
-        tw = api.GetUserTimeline(screen_name=args['term'], count=199, include_rts=False)
+        if (args['term']):
+            tw = api.GetUserTimeline(screen_name=args['term'], count=199, include_rts=False)
+        else:
+            tw = api.GetUserTimeline(count=199, include_rts=False)
 
         dmp = []
         for s in tw:
