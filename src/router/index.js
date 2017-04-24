@@ -26,23 +26,31 @@ export default new Router({
     {
       path: '/user',
       component: UserPage, Sidebar,
-      children: [
-        {
-          path: '',
-          name: 'User',
-          component: User, hBar, lineChart, dNutChart, barChart
-        },
-        {
-          path: '/user/profile',
-          name: 'Profile',
-          component: Profile
-        },
-        {
-          path: '/search',
-          name: 'Search',
-          component: Search
-        }
-      ]
+
+      children: [{
+        path: 'dashboard',
+        name: 'User',
+        component: User, hBar, lineChart, dNutChart, barChart
+      },
+      {
+        path: 'retweets',
+        name: 'Retweets',
+        component: Hello
+      },
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile
+      },
+      {
+        path: '/search',
+        name: 'Search',
+        component: Search
+      }
+      {
+        path: '',
+        redirect: { name: 'User'}
+      }]
     },
     {
       path: '/linnea',
