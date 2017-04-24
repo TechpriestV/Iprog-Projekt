@@ -39,7 +39,8 @@
       ...mapGetters([
         'user',
         'userDb',
-        'logged_in'
+        'logged_in',
+        'lastWeekTWeets'
       ])
     },
     mounted: function () {
@@ -47,6 +48,8 @@
 
       var self = this;
 
+      this.weekTweet = this.lastWeekTWeets
+      console.log("I exsist!: " + self.weekTweet);
       auth.onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
@@ -64,29 +67,48 @@
     },
     data () {
       return {
+        asd: [0,0,0,0,0,0],
         data1: this.getTweetsData(),
         data2: this.getInteractionData(),
         data3: this.getGoalData(),
-        data4: this.historicalData(),
+        data4: this.historicalData()
       }
     },
     methods:{
-      ...mapMutations([
-        'setUser',
-        'setLoggedIn'
-      ]),
       getTweetsData: function () {
+        console.log("this: " + self);
+        console.log("last:" + this.asd);
         return {
           labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
           datasets: [
             {
               label: 'Tweets',
               backgroundColor: '#f87979',
-              data: [3, 2,3,1,3,0,1]
+              data: self.weekTweet
             }
           ]
         }
       },
+      // ...mapMutations([
+      //   'setUser',
+      //   'setLoggedIn',
+      //   'uppdateLastWeekTweets',
+      //   'getLastWeekTweets'
+      // ]),
+      // getTweetsData: function () {
+      //   console.log("this: " + self);
+      //   console.log("last:" + this.asd);
+      //   return {
+      //     labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+      //     datasets: [
+      //       {
+      //         label: 'Tweets',
+      //         backgroundColor: '#f87979',
+      //         data: self.weekTweet
+      //       }
+      //     ]
+      //   }
+      // },
       getInteractionData: function () {
         return {
           labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
@@ -179,6 +201,7 @@
             self.$http.post(serverURL, tweetInfo).then(response => {
               self.someData = response.body;
               console.log(self.someData);
+              self.uppdateLastWeekTweets(self.someData)
             }, response => {
               // error callback
               console.log("Error");
