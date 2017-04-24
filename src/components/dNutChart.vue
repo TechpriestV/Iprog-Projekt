@@ -1,10 +1,12 @@
 
 <!-- Component for Munkchart-->
 <script>
-  import { Doughnut } from 'vue-chartjs';
+  import { Doughnut, mixins } from 'vue-chartjs';
+  const { reactiveProp } = mixins;
 
   export default Doughnut.extend({
-    props: ['data', 'options', 'height','width'],
+    mixins: [reactiveProp],
+    props: ['options', 'height','width'],
     mounted(){
       if (!this.options){
         // Define defualt options here
@@ -13,9 +15,9 @@
           responsive: true,
           maintainAspectRatio: false
         };
-        this.renderChart(this.data, this.defaultOptions)
+        this.renderChart(this.chartData, this.defaultOptions)
       }else{
-        this.renderChart(this.data, this.options)
+        this.renderChart(this.chartData, this.options)
       };
     }
   });

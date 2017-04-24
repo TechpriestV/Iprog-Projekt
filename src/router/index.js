@@ -24,13 +24,9 @@ export default new Router({
       component: Hello, Login
     },
     {
-      path: '/search',
-      name: 'Search',
-      component: Search
-    },
-    {
       path: '/user',
       component: UserPage, Sidebar,
+
       children: [{
         path: 'dashboard',
         name: 'User',
@@ -42,10 +38,15 @@ export default new Router({
         component: Hello
       },
       {
-        path: 'profile',
+        path: '/profile',
         name: 'Profile',
         component: Profile
       },
+      {
+        path: '/search',
+        name: 'Search',
+        component: Search
+      }
       {
         path: '',
         redirect: { name: 'User'}

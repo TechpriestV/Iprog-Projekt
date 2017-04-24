@@ -1,5 +1,5 @@
 <template>
-  <div class="user col-sm-10">
+  <div class="profile col-sm-10">
     <h1>Profile Page</h1>
     <h2>Description</h2>
     <textarea
@@ -16,7 +16,7 @@
   import { mapGetters } from 'vuex'
 
   export default {
-    name: 'user',
+    name: 'profile',
     computed: {
       ...mapGetters([
         'user',

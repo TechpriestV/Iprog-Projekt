@@ -1,10 +1,12 @@
 
 <!-- Component for horizontal barchart-->
 <script>
-  import { HorizontalBar } from 'vue-chartjs';
+  import { HorizontalBar, mixins } from 'vue-chartjs';
+  const { reactiveProp } = mixins;
 
   export default HorizontalBar.extend({
-    props: ['data', 'options', 'height','width'],
+    mixins: [reactiveProp],
+    props: ['options', 'height','width'],
     mounted(){
       if (!this.options){
         // Define defualt options here
@@ -30,9 +32,9 @@
             }]
           }
         };
-        this.renderChart(this.data, this.defaultOptions)
+        this.renderChart(this.chartData, this.defaultOptions)
       }else{
-        this.renderChart(this.data, this.options)
+        this.renderChart(this.chartData, this.options)
       };
     }
   });

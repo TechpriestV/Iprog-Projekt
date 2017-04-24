@@ -72,11 +72,13 @@ class SearchTweets(Resource):
         args = parser.parse_args()
         api = twitter.Api(consumer_key=args['consumer_key'], consumer_secret=args['consumer_secret'],access_token_key=args['access_token'],access_token_secret=args['access_token_secret'])
 
-        tw = api.GetSearch(term=args['term'])
-
+        tw = api.GetUserTimeline(screen_name=args['term'], count=100, include_rts=False)
+        
         dmp = []
-        for t in tw:
-            dmp.append(json.loads(str(t)))
+        for s in tw:
+            dmp.append(json.loads(str(s)))
+
+        # Need to add error handler here, in case user does not exist...
 
         api.ClearCredentials()
         return dmp, 201

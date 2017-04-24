@@ -10,7 +10,7 @@
         <lineChart :data='data2' :height='175' />
       </div>
       <div class="smallBox col">
-        <dNutChart :data='data3' :height='175' />
+        <dNutChart :chart-data='data3' :height='175' />
       </div>
     </div>
     <div class="row">
@@ -44,12 +44,32 @@
       ])
     },
     mounted: function () {
-      console.log("Mounted");
+        this.getGoalData();
+        console.log("Här borde user sevret komma> ");
 
-      var self = this;
+        if (this.user_token && this.user_secret) {
+          const tweetInfo = {
+            consumer_key: '45QA0HdFT6J2DDgvScJs6FKxb',
+            consumer_secret: '7Qm1KywGDIDVyVfG0JfgAZifZNPzPuudi4AjOL6nlIUB56QNLi',
+            access_token: false, // ska ändras till db ref
+            access_token_secret: false, // ska ändras till db ref
+          };
 
-      this.weekTweet = this.lastWeekTWeets
-      console.log("I exsist!: " + self.weekTweet);
+          const serverURL = 'http://localhost:5000/api/gettweets';
+          this.$http.post(serverURL, tweetInfo).then(response => {
+            this.someData = response.body;
+            console.log(this.someData);
+          }, response => {
+            // error callback
+            console.log("Error");
+            if (response.body) {
+              console.log(response.body.message);
+            }
+          });
+        } else (
+          console.log("Not signed in! Should kick user back!")
+        )
+        
       auth.onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
@@ -70,8 +90,8 @@
         asd: [0,0,0,0,0,0],
         data1: this.getTweetsData(),
         data2: this.getInteractionData(),
-        data3: this.getGoalData(),
-        data4: this.historicalData()
+        data3: {},
+        data4: this.historicalData(),
       }
     },
     methods:{
@@ -123,7 +143,10 @@
         }
       },
       getGoalData: function () {
-        return {
+        var favs = 100;
+        var rt = 200;
+        var rep = 30;
+        this.data3 = {
           labels: [
             "Favs",
             "Replies",
@@ -132,7 +155,7 @@
           datasets: [
 
                {
-              data: [300, 50, 100],
+              data: [favs, rt, rep],
               backgroundColor: [
                 "#FF6384",
                 "#36A2EB",
