@@ -71,7 +71,8 @@
       return {
         searchInput: '',
         userTweetRef: '',
-        tweetList : [],
+        tweetList: [],
+        tweetList2: [],
         tweetsData: {},
         interactionData: {},
         goalData: {},
@@ -81,16 +82,16 @@
     },
     methods:{
       search: function () {
-        this.tweetList = []
+        this.tweetList = [];
+        this.tweetList2 = [];
         var self = this;
         if (this.searchInput) {
           this.userTweetRef.push({
             search: this.searchInput
           })
           this.getSearchTweets(this.searchInput, function(user){
-              // self.user = user;
-              // console.log(user);
-              // Populate tweetList
+              // This is the callback from the call,
+              // Populate tweetlist.
               var i;
               for (i in user){
                 self.tweetList.push(user[i]);
@@ -99,15 +100,20 @@
               self.createTweetsChart(); 
               self.createInteractionChart();
               self.createGoalChart();
-              self.createHistoricalChart();
-              
+          },
+          function(user2){
+            var i;
+            for (i in user2){
+              self.tweetList2.push(user2[i]);
+            }
+            self.createHistoricalChart();
           });
 
           this.latestSearch = this.searchInput;
           this.searchInput = '';
         }
       },
-      getSearchTweets: function(searchterm, cb) {
+      getSearchTweets: function(searchterm, cb, cb2) {
         var ref = this.userDb.child('searchhistory')
         this.userTweetRef = ref;
 
@@ -130,11 +136,25 @@
               access_token_secret: secret,
               term: searchterm
             };
-            const serverURL = 'http://localhost:5000/api/search';
+            const serverURL = 'http://localhost:5000/api/lastseven';
             self.$http.post(serverURL, tweetInfo).then(response => {
               self.someData = response.body;
               // Return the tweets
+              // console.log(self.someData);
               cb(self.someData);
+            }, response => {
+              // error callback
+              console.log("Error");
+              if (response.body) {
+                console.log(response.body.message);
+              }
+            });
+            const serverURL2 = 'http://localhost:5000/api/search';
+            self.$http.post(serverURL2, tweetInfo).then(response => {
+              self.someData = response.body;
+              // Return the tweets
+              // console.log(self.someData);
+              cb2(self.someData);
             }, response => {
               // error callback
               console.log("Error");
@@ -299,16 +319,16 @@
         var interactionArray = [0, 0, 0, 0];
         var tweetArray = [0, 0, 0, 0];
 
-        for (i in this.tweetList){
-          var timestamp = this.tweetList[i].created_at.split(' ');
+        for (i in this.tweetList2){
+          var timestamp = this.tweetList2[i].created_at.split(' ');
           
           if (timestamp[5] == 2017){
-            var favs = this.tweetList[i].favorite_count;
+            var favs = this.tweetList2[i].favorite_count;
             if (!favs){
               // If no favs, set it to zero
               favs = 0;
             }
-            var rts = this.tweetList[i].retweet_count;
+            var rts = this.tweetList2[i].retweet_count;
             if (!rts){
               rts = 0;
             }
@@ -335,7 +355,7 @@
 
 
         this.historicalData = {
-          labels: ["January", "Feburai", "Mars", "April"],
+          labels: ["January", "Feburary", "Mars", "April"],
           datasets: [
             {
               label: "Tweets",
