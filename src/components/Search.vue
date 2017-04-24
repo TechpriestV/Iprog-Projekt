@@ -353,7 +353,6 @@
           }
         }
 
-
         this.historicalData = {
           labels: ["January", "Feburary", "Mars", "April"],
           datasets: [

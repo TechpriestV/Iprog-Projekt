@@ -1,22 +1,23 @@
 <template>
   <div class="user col-sm-10">
-    <h1>Dashboard</h1>
+    <h1>Dashboard for this week</h1>
+    {{ errorMsg }}
     <hr>
-    <div class="row">
+    <div v-if="!errorMsg" class="row">
       <div class="smallBox col">
-        <hBar :data='data1' :height='175' />
+        <hBar :chart-data='tweetsData' :height='175' />
       </div>
       <div class="smallBox col">
-        <lineChart :data='data2' :height='175' />
+        <lineChart :chart-data='interactionData' :height='175' />
       </div>
       <div class="smallBox col">
-        <dNutChart :chart-data='data3' :height='175' />
+        <dNutChart :chart-data='goalData' :height='175' />
       </div>
     </div>
-    <div class="row">
+    <div v-if="!errorMsg" class="row">
       <div class="bigBox col">
 
-        <barChart :data='data4' :height='175'/>
+        <barChart :chart-data='historicalData' :height='175'/>
         <!-- <lineChart :data='data4' :height='175' /> -->
       </div>
     </div>
@@ -44,39 +45,39 @@
       ])
     },
     mounted: function () {
-        this.getGoalData();
-        console.log("Här borde user sevret komma> ");
-
-        if (this.user_token && this.user_secret) {
-          const tweetInfo = {
-            consumer_key: '45QA0HdFT6J2DDgvScJs6FKxb',
-            consumer_secret: '7Qm1KywGDIDVyVfG0JfgAZifZNPzPuudi4AjOL6nlIUB56QNLi',
-            access_token: false, // ska ändras till db ref
-            access_token_secret: false, // ska ändras till db ref
-          };
-
-          const serverURL = 'http://localhost:5000/api/gettweets';
-          this.$http.post(serverURL, tweetInfo).then(response => {
-            this.someData = response.body;
-            console.log(this.someData);
-          }, response => {
-            // error callback
-            console.log("Error");
-            if (response.body) {
-              console.log(response.body.message);
-            }
-          });
-        } else (
-          console.log("Not signed in! Should kick user back!")
-        )
-        
+      var self = this;
+      
       auth.onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
           console.log("Inloggad");
           self.setUser(user);
           self.setLoggedIn(true);
-          self.twitter()
+          
+          self.getTweets(function(returnedTweets){
+
+            // This is the callback from the call,
+            // Populate tweetlist.
+            var i;
+            for (i in returnedTweets){
+              self.tweetList.push(returnedTweets[i]);
+            }
+            // Now we can create the charts.
+            if (self.tweetList.length == 0){
+              self.errorMsg = 'No tweets to show. (Only shows tweets from the current week)';
+            }
+            self.createTweetsChart(); 
+            self.createInteractionChart();
+            self.createGoalChart();
+          },
+          function(returnedTweets2){
+            var i;
+            for (i in returnedTweets2){
+              self.tweetList2.push(returnedTweets2[i]);
+            }
+            self.createHistoricalChart();
+          });
+
         } else {
           console.log("Utloggad");
           self.setUser(false);
@@ -87,144 +88,45 @@
     },
     data () {
       return {
-        asd: [0,0,0,0,0,0],
-        data1: this.getTweetsData(),
-        data2: this.getInteractionData(),
-        data3: {},
-        data4: this.historicalData(),
+        tweetList: [],
+        tweetList2: [],
+        tweetsData: {},
+        interactionData: {},
+        goalData: {},
+        historicalData: {},
+        errorMsg: ''
       }
     },
     methods:{
-      getTweetsData: function () {
-        console.log("this: " + self);
-        console.log("last:" + this.asd);
-        return {
-          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-          datasets: [
-            {
-              label: 'Tweets',
-              backgroundColor: '#f87979',
-              data: self.weekTweet
-            }
-          ]
-        }
-      },
-      // ...mapMutations([
-      //   'setUser',
-      //   'setLoggedIn',
-      //   'uppdateLastWeekTweets',
-      //   'getLastWeekTweets'
-      // ]),
-      // getTweetsData: function () {
-      //   console.log("this: " + self);
-      //   console.log("last:" + this.asd);
-      //   return {
-      //     labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-      //     datasets: [
-      //       {
-      //         label: 'Tweets',
-      //         backgroundColor: '#f87979',
-      //         data: self.weekTweet
-      //       }
-      //     ]
-      //   }
-      // },
-      getInteractionData: function () {
-        return {
-          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-          datasets: [
-            {
-              label: 'Interactions',
-              fill: false,
-              backgroundColor: '#36A2EB',
-              data: [1, 0,2,0,1,0,1]
-            }
-          ]
-        }
-      },
-      getGoalData: function () {
-        var favs = 100;
-        var rt = 200;
-        var rep = 30;
-        this.data3 = {
-          labels: [
-            "Favs",
-            "Replies",
-            "Retweets"
-          ],
-          datasets: [
+      ...mapMutations([
+        'setUser',
+        'setLoggedIn'
+      ]),
+      getTweets: function(cb, cb2) {
 
-               {
-              data: [favs, rt, rep],
-              backgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
-              ],
-              hoverBackgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56"
-              ]
-            }
-          ]
-        }
-      },
-      historicalData: function () {
-        var data = {
-          labels: ["January", "Feburai", "Mars", "April", "May", "June", "July", "Agust", "September", "October", "November", "December"],
-          datasets: [
-            {
-              label: "Tweets",
-              backgroundColor: "#f87979",
-              fill: false,
-              data: [32,17,24, 20, 14, 10,41,24,17,29,11,32]
-            },
-            {
-              label: "Interactions",
-              backgroundColor: "#36A2EB",
-              fill: false,
-              data: [40,13,25,17,22,34,46,11,22,35,31,42]
-            }
-          ]
-        };
-      return data
-
-      },
-      twitter: function () {
-
-      	var self = this;
-        var userTokenRef = this.userDb.child('token');
-        var userSecretRef = this.userDb.child('secret');
-
+        var self = this;
+        var userTokenRef = this.userDb.child('token')
+        var userSecretRef = this.userDb.child('secret')
         userTokenRef.once('value').then( function (snapshot) {
           var token = snapshot.val();
-          console.log(token);
-
           userSecretRef.once('value').then(function (snapshot) {
             var secret = snapshot.val();
-            console.log(secret);
             twitterReq(token, secret);
           });
         });
-        console.log("Nu?");
-
         function twitterReq(token, secret) {
-          console.log("token: " + token);
-          console.log("secret: " + secret);
           if (token && secret) {
             const tweetInfo = {
               consumer_key: '45QA0HdFT6J2DDgvScJs6FKxb',
               consumer_secret: '7Qm1KywGDIDVyVfG0JfgAZifZNPzPuudi4AjOL6nlIUB56QNLi',
-              access_token: token, // ska ändras till db ref
-              access_token_secret: secret // ska ändras till db ref
+              access_token: token,
+              access_token_secret: secret
             };
-
-            const serverURL = 'http://localhost:5000/api/gettweets';
+            const serverURL = 'http://localhost:5000/api/lastseven';
             self.$http.post(serverURL, tweetInfo).then(response => {
               self.someData = response.body;
-              console.log(self.someData);
-              self.uppdateLastWeekTweets(self.someData)
+              // Return the tweets
+              cb(self.someData);
             }, response => {
               // error callback
               console.log("Error");
@@ -232,11 +134,231 @@
                 console.log(response.body.message);
               }
             });
-          } else (
+            const serverURL2 = 'http://localhost:5000/api/search';
+            self.$http.post(serverURL2, tweetInfo).then(response => {
+              self.someData = response.body;
+              // Return the tweets
+              // console.log(self.someData);
+              cb2(self.someData);
+            }, response => {
+              // error callback
+              console.log("Error");
+              if (response.body) {
+                console.log(response.body.message);
+              }
+            });
+          } else {
             console.log("Not signed in! Should kick user back!")
-          )
+          }
         }
+      },
+      createGoalChart: function(){
+          var i;
+          var favs = 0;
+          // var replies = 0;
+          var retweets = 0;
+          for (i in this.tweetList){
+            if (this.tweetList[i].favorite_count){
+              favs += this.tweetList[i].favorite_count;
+            }
+            if (this.tweetList[i].retweet_count){
+              retweets += this.tweetList[i].retweet_count;
+            }
+          }
+
+          this.goalData = {
+            labels: [
+              "Favorites",
+              // "Replies",
+              "Retweets"
+            ],
+            datasets: [
+                 {
+                // data: [favs, replies, retweets],
+                data: [favs, retweets],
+                backgroundColor: [
+                  "#FF6384",
+                  // "#36A2EB",
+                  "#FFCE56"
+                ],
+                hoverBackgroundColor: [
+                  "#FF6384",
+                  // "#36A2EB",
+                  "#FFCE56"
+                ]
+              }
+            ]
+          }
+
+      },
+      createTweetsChart: function () {
+        var i;
+        var dataArray = [0,0,0,0,0,0,0];
+        for (i in this.tweetList){
+          var timestamp = this.tweetList[i].created_at.split('');
+
+          if (timestamp[0] == 'M'){
+            dataArray[0] += 1;
+          }
+          else if(timestamp[0] == 'T'){
+            if (timestamp[1] == 'u'){
+              // Tuesday
+              dataArray[1] += 1;
+            }
+            else {
+              //Thursday
+              dataArray[3] += 1;
+            }
+          }
+          else if(timestamp[0] == 'W'){
+            // Wednesday
+            dataArray[2] +=+ 1;
+          }
+          else if(timestamp[0] == 'F') {
+            // Friday
+            dataArray[4] += 1;
+          }
+          else if (timestamp[0] == 'S'){
+            if (timestamp[1] == 'a'){
+              // Saturday
+              dataArray[5] += 1;
+            }
+            else {
+              dataArray[6] += 1;
+            }
+          }
+        }
+
+        this.tweetsData = {
+          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+          datasets: [
+            {
+              label: 'Tweets',
+              backgroundColor: '#f87979',
+              data: dataArray
+            }
+          ]
+        }
+      },
+      createInteractionChart: function () {
+        var i;
+        var dataArray = [0,0,0,0,0,0,0];
+        for (i in this.tweetList){
+          var favs = this.tweetList[i].favorite_count;
+          if (!favs){
+            // If no favs, set it to zero
+            favs = 0;
+          }
+          var rts = this.tweetList[i].retweet_count;
+          if (!rts){
+            rts = 0;
+          }
+          var tot = favs + rts;
+
+          var timestamp = this.tweetList[i].created_at.split(' ');
+
+          if (timestamp[0] == 'Mon'){
+            // Monday
+            dataArray[0] += tot;
+          }
+          else if(timestamp[0] == 'Tue'){
+            // Tuesday
+            dataArray[1] += tot;
+          }
+          else if(timestamp[0] == 'Wed'){
+            // Wednesday
+            dataArray[2] += tot;
+          }
+          else if(timestamp[0] == 'Thu') {
+            // Friday
+            dataArray[3] += tot;
+          }
+          else if(timestamp[0] == 'Fri') {
+            // Friday
+            dataArray[4] += tot;
+          }
+          else if (timestamp[0] == 'Sat'){
+            // Saturday
+            dataArray[5] += tot;
+          }
+          else if (timestamp[0] == 'Sun'){
+            // Sunday
+            dataArray[6] += tot;
+          }
+        }
+
+        this.interactionData = {
+          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+          datasets: [
+            {
+              label: 'Interactions',
+              fill: false,
+              backgroundColor: '#36A2EB',
+              data: dataArray
+            }
+          ]
+        }
+      },
+      createHistoricalChart: function () {
+        var i;
+        var interactionArray = [0, 0, 0, 0];
+        var tweetArray = [0, 0, 0, 0];
+
+        for (i in this.tweetList2){
+          var timestamp = this.tweetList2[i].created_at.split(' ');
+          
+          if (timestamp[5] == 2017){
+            var favs = this.tweetList2[i].favorite_count;
+            if (!favs){
+              // If no favs, set it to zero
+              favs = 0;
+            }
+            var rts = this.tweetList2[i].retweet_count;
+            if (!rts){
+              rts = 0;
+            }
+            var interactions = favs + rts;
+
+            if (timestamp[1] == 'Jan'){
+              interactionArray[0] += interactions;
+              tweetArray[0] += 1;
+            }
+            else if (timestamp[1] == 'Feb'){
+              interactionArray[1] += interactions;
+              tweetArray[1] += 1;
+            }
+            else if (timestamp[1] == 'Mar'){
+              interactionArray[2] += interactions;
+              tweetArray[2] += 1;
+            }
+            else if (timestamp[1] == 'Apr'){
+              interactionArray[3] += interactions;
+              tweetArray[3] += 1;
+            }
+          }
+        }
+
+
+        this.historicalData = {
+          labels: ["January", "Feburary", "Mars", "April"],
+          datasets: [
+            {
+              label: "Tweets",
+              backgroundColor: "#f87979",
+              fill: false,
+              data: tweetArray
+            },
+            {
+              label: "Interactions",
+              backgroundColor: "#36A2EB",
+              fill: false,
+              data: interactionArray
+            }
+          ]
+        };
+
       }
+      // Last method
     }
   }
 </script>
