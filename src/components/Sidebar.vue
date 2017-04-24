@@ -8,7 +8,7 @@
       <ul>
         <router-link :to="{name:'User'}" tag="li" active-class="active">Dashboard</router-link>
         <router-link :to="{name:'Profile'}" tag="li" active-class="active">Profile</router-link>
-        <router-link :to="{name:'Retweets'}" tag="li" active-class="active">Search</router-link>
+        <router-link :to="{name:'Search'}" tag="li" active-class="active">Search</router-link>
       </ul>
     </div>
   </div>

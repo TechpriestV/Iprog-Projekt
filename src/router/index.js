@@ -38,7 +38,7 @@ export default new Router({
         component: Hello
       },
       {
-        path: '/profile',
+        path: 'profile',
         name: 'Profile',
         component: Profile
       },
@@ -46,7 +46,7 @@ export default new Router({
         path: '/search',
         name: 'Search',
         component: Search
-      }
+      },
       {
         path: '',
         redirect: { name: 'User'}
