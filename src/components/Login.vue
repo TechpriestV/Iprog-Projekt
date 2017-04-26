@@ -1,13 +1,13 @@
 <template>
   <div class="login">
     <div v-if="logged_in">
-      <h1>Welcome back {{ user.displayName }}!</h1>
-      <button v-on:click="start">Start!</button>
-      <button v-on:click="logout">Logga ut </button>
+      <h2>Welcome back {{ user.displayName }}!</h2>
+      <button class="knapp" v-on:click="start">Start</button>
+      <button class="knapp" v-on:click="logout">Logga ut </button>
     </div>
     <div v-if="!logged_in">
-      <h1>Welcome, please log in!</h1>
-      <button v-on:click="loginTwitter">Logga in med twitter</button>
+      <h2>Welcome, please log in</h2>
+      <button class="knapp" v-on:click="loginTwitter">Logga in med twitter</button>
     </div>
   </div>
 </template>
@@ -79,10 +79,25 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h1, h2 {
+
+  h1 {
     font-weight: normal;
   }
-
+h2 {
+  font-weight: lighter;
+  font-size: 20px;
+  color: #9599a0;
+  text-transform: uppercase;
+}
+.knapp {
+  background-color: #469AEA;
+  border: 0px;
+  border-radius: 14px;
+  font-size: 14px;
+  color: #fff;
+  padding: 3px 25px 3px 25px;
+  margin: 25px 10px 0px 10px;
+}
   ul {
     list-style-type: none;
     padding: 0;

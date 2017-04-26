@@ -51,13 +51,17 @@
   }
 
   li {
-
+    margin: 20px;
+    border: 0px;
+    border-radius: 14px;
   }
 
   li:hover {
     background-color: white;
     text-decoration: none;
     cursor: pointer;
+    border: 0px;
+    border-radius: 14px;
   }
 
   .active {

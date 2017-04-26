@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <img src="../assets/logo3.png" height="100px">
+    <img id="logo" src="../assets/logo3.png" height="100px">
     <h1>{{ msg }}</h1>
     <!-- <TestCharts :data='testData' /> -->
     <login/>
@@ -15,7 +15,7 @@
     name: 'hello',
     data () {
       return {
-        msg: 'Iprog Project'
+        msg: 'Här borde vi ha ett coolt namn'
       }
     }
   }
@@ -23,6 +23,10 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#logo {
+  margin-top: 100px;
+  margin-bottom: 40px;
+}
   h1, h2 {
     font-weight: normal;
   }

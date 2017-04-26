@@ -1,11 +1,13 @@
 <template>
-  <div class="search col-sm-10">
-    <h1>Search Page</h1>
-    <input v-model="searchInput"
+<div class="page col-sm-10">
+    <div class="searchbar col-sm-12">
+      <input class="searchinput col-sm-12" v-model="searchInput"
         @keyup.enter="search"
-        placeholder="Search user">
-    <h2>{{ latestSearch }}</h2>
-
+        placeholder="Search">
+        </div>
+    <div class="search col-sm-12">
+    <h1>User: {{ latestSearch }}</h1>
+    <h3>The latest statistics</h3>
     <div class="row">
       <div class="smallBox col">
         <hBar :chart-data='tweetsData' :height='175' />
@@ -24,8 +26,10 @@
         <!-- <lineChart :data='data4' :height='175' /> -->
       </div>
     </div>
-    <div class="row">
-      <h2>Search history</h2>
+  </div>
+
+    <div class="history row">
+      <h4>Search history:</h4>
       <ul>
         <li v-for="searchpost in searches">{{ searchpost.search }}</li>
       </ul>
@@ -65,7 +69,7 @@
       var ref = this.userDb.child('searchhistory');
       return {
         searches: ref.limitToLast(5)
-      }  
+      }
     },
     data () {
       return {
@@ -97,7 +101,7 @@
                 self.tweetList.push(user[i]);
               }
               // Now we can create the charts.
-              self.createTweetsChart(); 
+              self.createTweetsChart();
               self.createInteractionChart();
               self.createGoalChart();
           },
@@ -321,7 +325,7 @@
 
         for (i in this.tweetList2){
           var timestamp = this.tweetList2[i].created_at.split(' ');
-          
+
           if (timestamp[5] == 2017){
             var favs = this.tweetList2[i].favorite_count;
             if (!favs){
@@ -382,6 +386,50 @@
 .user {
   text-align: left;
 }
+.searchbar {
+  background-color: red;
+  height: 50px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+.searchinput {
+  padding: 0px;
+  height: 50px;
+  box-sizing: border-box;
+  padding-left: 25px;
+  background-color: #f7f7f7;
+  border: 0px;
+}
+.page {
+  padding: 0;
+}
+
+.bigBox {
+  height: 300px;
+  background-color: #f0f0f0;
+  margin: 0px 10px 0px 10px;
+  box-sizing: border-box;
+}
+.smallBox {
+  height: 180px;
+  background-color: #f0f0f0;
+  width: 30%;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  }
+.smallBox:last-child{
+  margin-right: 10px;
+}
+.history {
+  padding: 0px;
+  box-sizing: border-box;
+  margin-left: 0px;
+  margin-top: 10px;
+  height: 60px;
+  background-color: #f7f7f7;
+  border: 0px;
+
+}
 hr {
   border-top: #f0f0f0;
   border-left: none;
@@ -389,14 +437,24 @@ hr {
   padding: 10px;
   width: 100%;
   }
-h1, h2 {
+h1 {
+  margin-top: 20px;
   font-weight: normal;
+  text-align: left;
   }
 h4 {
     font-weight: lighter;
     font-style: italic;
+    font-size: 17px;
+    padding: 8px;
+    text-align: left;
   }
-
+h3 {
+      font-weight: lighter;
+      font-style: italic;
+      font-size: 17px;
+      text-align: left;
+    }
   ul {
     list-style-type: none;
     padding: 0;
@@ -404,7 +462,7 @@ h4 {
 
   li {
     display: inline-block;
-    margin: 0 10px;
+    margin: 6px;
   }
 
   a {

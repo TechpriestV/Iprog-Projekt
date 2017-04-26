@@ -46,14 +46,14 @@
     },
     mounted: function () {
       var self = this;
-      
+
       auth.onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
           console.log("Inloggad");
           self.setUser(user);
           self.setLoggedIn(true);
-          
+
           self.getTweets(function(returnedTweets){
 
             // This is the callback from the call,
@@ -66,7 +66,7 @@
             if (self.tweetList.length == 0){
               self.errorMsg = 'No tweets to show. (Only shows tweets from the current week)';
             }
-            self.createTweetsChart(); 
+            self.createTweetsChart();
             self.createInteractionChart();
             self.createGoalChart();
           },
@@ -306,7 +306,7 @@
 
         for (i in this.tweetList2){
           var timestamp = this.tweetList2[i].created_at.split(' ');
-          
+
           if (timestamp[5] == 2017){
             var favs = this.tweetList2[i].favorite_count;
             if (!favs){
@@ -370,11 +370,19 @@
 .bigBox {
   height: 300px;
   background-color: #f0f0f0;
+  margin: 0px 10px 0px 10px;
+  box-sizing: border-box;
 }
 .smallBox {
   height: 180px;
   background-color: #f0f0f0;
+  width: 30%;
+  margin-left: 10px;
+  margin-bottom: 10px;
   }
+.smallBox:last-child{
+  margin-right: 10px;
+}
 hr {
   border-top: #f0f0f0;
   border-left: none;
@@ -382,7 +390,8 @@ hr {
   padding: 10px;
   width: 100%;
   }
-h1, h2 {
+h1 {
+  margin-top: 30px;
   font-weight: normal;
   }
 h4 {
