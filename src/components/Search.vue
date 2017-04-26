@@ -3,26 +3,29 @@
     <div class="searchbar col-sm-12">
       <input class="searchinput col-sm-12" v-model="searchInput"
         @keyup.enter="search"
-        placeholder="Search">
+        placeholder="Search for username">
         </div>
     <div class="search col-sm-12">
-    <h1>User: {{ latestSearch }}</h1>
+    <h1>User: @{{ latestSearch }}</h1>
     <h3>The latest statistics</h3>
     <div class="row">
       <div class="smallBox col">
-        <hBar :chart-data='tweetsData' :height='175' />
+        <h2>This week's tweets</h2>
+        <hBar :chart-data='tweetsData' :height='155' />
       </div>
       <div class="smallBox col">
-        <lineChart :chart-data='interactionData' :height='175' />
+        <h2>Interactions per day</h2>
+        <lineChart :chart-data='interactionData' :height='155' />
       </div>
       <div class="smallBox col">
-        <dNutChart :chart-data='goalData' :height='175' />
+        <h2>Total interactions</h2>
+        <dNutChart :chart-data='goalData' :height='155' />
       </div>
     </div>
     <div class="row">
       <div class="bigBox col">
-
-        <barChart :chart-data='historicalData' :height='175'/>
+<h5>Tweets and interactions over time</h5>
+        <barChart :chart-data='historicalData' :height='195'/>
         <!-- <lineChart :data='data4' :height='175' /> -->
       </div>
     </div>
@@ -411,7 +414,7 @@
   box-sizing: border-box;
 }
 .smallBox {
-  height: 180px;
+  height: 200px;
   background-color: #f0f0f0;
   width: 30%;
   margin-left: 10px;
@@ -442,6 +445,13 @@ h1 {
   font-weight: normal;
   text-align: left;
   }
+h5 {
+      font-weight: lighter;
+      font-style: italic;
+      font-size: 25px;
+      margin: 15px;
+      margin: 30px 15px 30px 15px;
+    }
 h4 {
     font-weight: lighter;
     font-style: italic;
@@ -454,6 +464,12 @@ h3 {
       font-style: italic;
       font-size: 17px;
       text-align: left;
+    }
+h2 {
+      padding-top: 10px;
+      font-weight: lighter;
+      font-style: italic;
+      font-size: 16px;
     }
   ul {
     list-style-type: none;

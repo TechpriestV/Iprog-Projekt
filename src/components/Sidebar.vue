@@ -3,6 +3,7 @@
     <div class="profile-info">
       <img :src="user.photoURL" alt="">
       <h4>{{user.displayName}}</h4>
+      <h6>is logged in</h6>
     </div>
     <div class="navigation">
       <ul>
@@ -37,14 +38,19 @@
   }
 
   img {
-    height: 40px;
-    border-radius: 20px;
+    height: 80px;
+    border-radius: 40px;
+    margin-bottom: 10px;
   }
 
   .profile-info {
     margin: 30px 0;
   }
-
+h6 {
+    font-weight: lighter;
+    font-style: italic;
+    font-size: 12px;
+}
   ul {
     list-style: none;
     padding: 0;

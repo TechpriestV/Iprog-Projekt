@@ -1,10 +1,11 @@
 <template>
   <div class="profile col-sm-10">
     <h1>Profile Page</h1>
-    <h2>Description</h2>
-    <textarea
+    <h3>Description</h3>
+    <textarea class="description"
         v-model="newPost"
         @input="addProfileText"
+        placeholder="Add something about yourself"
       >
       </textarea>
   </div>
@@ -25,7 +26,7 @@
       ])
     },
     mounted: function () {
-        var child = this.userDb.child('profiletext'); 
+        var child = this.userDb.child('profiletext');
         var self = this;
         // console.log(this.userDb)
         child.on('value', function(snapshot) {
@@ -52,8 +53,20 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .user {
   text-align: left;
+}
+.profile {
+  height: 100vh;
+}
+.description {
+  display: block;
+  background-color: #fff;
+  height: 200px;
+  width: 40%;
+  border: 1px solid;
+  border-color: #D8DAD3;
 }
 hr {
   border-top: #f0f0f0;
@@ -62,13 +75,17 @@ hr {
   padding: 10px;
   width: 100%;
   }
-h1, h2 {
-  font-weight: normal;
-  }
-h4 {
-    font-weight: lighter;
-    font-style: italic;
-  }
+  h1 {
+    margin-top: 20px;
+    font-weight: normal;
+    text-align: left;
+    }
+  h3 {
+        font-weight: lighter;
+        font-style: italic;
+        font-size: 17px;
+        text-align: left;
+      }
 
   ul {
     list-style-type: none;

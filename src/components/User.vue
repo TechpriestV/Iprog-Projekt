@@ -1,23 +1,26 @@
 <template>
   <div class="user col-sm-10">
-    <h1>Dashboard for this week</h1>
+    <h1>Your dashboard for this week</h1>
     {{ errorMsg }}
     <hr>
     <div v-if="!errorMsg" class="row">
       <div class="smallBox col">
-        <hBar :chart-data='tweetsData' :height='175' />
+          <h2>This week's tweets</h2>
+        <hBar :chart-data='tweetsData' :height='155' />
       </div>
       <div class="smallBox col">
-        <lineChart :chart-data='interactionData' :height='175' />
+          <h2>Interactions per day</h2>
+        <lineChart :chart-data='interactionData' :height='155' />
       </div>
       <div class="smallBox col">
-        <dNutChart :chart-data='goalData' :height='175' />
+          <h2>Total interactions</h2>
+        <dNutChart :chart-data='goalData' :height='155' />
       </div>
     </div>
     <div v-if="!errorMsg" class="row">
       <div class="bigBox col">
-
-        <barChart :chart-data='historicalData' :height='175'/>
+            <h5>Tweets and interactions over time</h5>
+        <barChart :chart-data='historicalData' :height='195'/>
         <!-- <lineChart :data='data4' :height='175' /> -->
       </div>
     </div>
@@ -374,7 +377,7 @@
   box-sizing: border-box;
 }
 .smallBox {
-  height: 180px;
+  height: 200px;
   background-color: #f0f0f0;
   width: 30%;
   margin-left: 10px;
@@ -394,11 +397,22 @@ h1 {
   margin-top: 30px;
   font-weight: normal;
   }
+h2 {
+      padding-top: 10px;
+      font-weight: lighter;
+      font-style: italic;
+      font-size: 16px;
+    }
 h4 {
     font-weight: lighter;
     font-style: italic;
   }
-
+h5 {
+      font-weight: lighter;
+      font-style: italic;
+      font-size: 25px;
+      margin: 30px 15px 30px 15px;
+    }
   ul {
     list-style-type: none;
     padding: 0;

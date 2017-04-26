@@ -15,7 +15,7 @@
     name: 'hello',
     data () {
       return {
-        msg: 'Här borde vi ha ett coolt namn'
+        msg: 'UberawesomeTwitterstatsappthatisfreakingnice'
       }
     }
   }
