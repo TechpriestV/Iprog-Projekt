@@ -125,7 +125,7 @@
               access_token: token,
               access_token_secret: secret
             };
-            const serverURL = 'http://localhost:5000/api/lastseven';
+            const serverURL = 'http://178.62.102.83:5000/api/lastseven';
             self.$http.post(serverURL, tweetInfo).then(response => {
               self.someData = response.body;
               // Return the tweets
@@ -137,7 +137,7 @@
                 console.log(response.body.message);
               }
             });
-            const serverURL2 = 'http://localhost:5000/api/search';
+            const serverURL2 = 'http://178.62.102.83:5000/api/search';
             self.$http.post(serverURL2, tweetInfo).then(response => {
               self.someData = response.body;
               // Return the tweets
